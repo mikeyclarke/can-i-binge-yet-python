@@ -1,0 +1,9 @@
+__pypackages__
+__pycache__
+.pdm.toml
+
+.env
+.env.*
+!.env.testing
+
+**/*.DS_Store

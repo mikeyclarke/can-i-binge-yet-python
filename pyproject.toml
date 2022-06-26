@@ -1,0 +1,32 @@
+[project]
+name = "bingeable"
+version = ""
+description = ""
+authors = [
+    {name = "Mikey Clarke", email = "mikey.clarke@me.com"},
+]
+license = {text = "All rights reserved."}
+requires-python = "~=3.10"
+
+dependencies = [
+    "masonite~=4.15"]
+
+[project.optional-dependencies]
+
+[tool.pdm.scripts]
+start = "bin/console serve -p 8000 -b 0.0.0.0"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "bandit~=1.7",
+    "flake8~=4.0",
+    "dlint~=0.12",
+    "flake8-bugbear~=22.6",
+    "flake8-simplify~=0.19",
+    "pep8-naming~=0.13",
+    "flake8-eradicate~=1.2",
+]
+
+[build-system]
+requires = ["pdm-pep517>=0.12.0"]
+build-backend = "pdm.pep517.api"
