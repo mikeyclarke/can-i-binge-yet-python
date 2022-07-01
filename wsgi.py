@@ -4,11 +4,11 @@ from masonite.configuration import config
 
 from src.py.Kernel import Kernel as ApplicationKernel
 
-"""Start The Application Instance."""
+'''Start The Application Instance.'''
 application = Application(base_path())
 
-"""Now Bind important providers needed to make the framework work."""
+'''Now Bind important providers needed to make the framework work.'''
 application.register_providers(Kernel, ApplicationKernel)
 
-"""Now Bind important application specific providers needed to make the application work."""
-application.add_providers(*config("providers.providers"))
+'''Now Bind important application specific providers needed to make the application work.'''
+application.add_providers(*config('providers.providers'))

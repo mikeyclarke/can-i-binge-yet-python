@@ -1,4 +1,4 @@
 GUARDS = {
-    "default": "web",
-    "web": {},
+    'default': 'web',
+    'web': {},
 }

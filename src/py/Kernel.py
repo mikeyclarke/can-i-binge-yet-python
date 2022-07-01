@@ -22,8 +22,8 @@ class Kernel:
     http_middleware = [MaintenanceModeMiddleware, EncryptCookies]
 
     route_middleware = {
-        "web": [SessionMiddleware, LoadUserMiddleware, VerifyCsrfToken],
-        "auth": [AuthenticationMiddleware],
+        'web': [SessionMiddleware, LoadUserMiddleware, VerifyCsrfToken],
+        'auth': [AuthenticationMiddleware],
     }
 
     def __init__(self, app: Application) -> None:
@@ -44,41 +44,41 @@ class Kernel:
 
     def register_configurations(self) -> None:
         # load configuration
-        self.application.bind("config.location", "config")
+        self.application.bind('config.location', 'config')
         configuration = Configuration(self.application)
         configuration.load()
-        self.application.bind("config", configuration)
-        key = config("application.key")
-        self.application.bind("key", key)
-        self.application.bind("sign", Sign(key))
+        self.application.bind('config', configuration)
+        key = config('application.key')
+        self.application.bind('key', key)
+        self.application.bind('sign', Sign(key))
         # set locations
-        self.application.bind("controllers.location", "")
-        self.application.bind("resources.location", "")
-        self.application.bind("jobs.location", "src/py/jobs")
-        self.application.bind("providers.location", "src/py/providers")
-        self.application.bind("mailables.location", "src/py/mailables")
-        self.application.bind("listeners.location", "src/py/listeners")
-        self.application.bind("validation.location", "src/py/validation")
-        self.application.bind("notifications.location", "src/py/notifications")
-        self.application.bind("events.location", "src/py/events")
-        self.application.bind("tasks.location", "src/py/tasks")
-        self.application.bind("models.location", "src/py/models")
-        self.application.bind("observers.location", "src/py/models/observers")
-        self.application.bind("policies.location", "src/py/policies")
-        self.application.bind("commands.location", "src/py/commands")
-        self.application.bind("middlewares.location", "src/py/middlewares")
+        self.application.bind('controllers.location', '')
+        self.application.bind('resources.location', '')
+        self.application.bind('jobs.location', 'src/py/jobs')
+        self.application.bind('providers.location', 'src/py/providers')
+        self.application.bind('mailables.location', 'src/py/mailables')
+        self.application.bind('listeners.location', 'src/py/listeners')
+        self.application.bind('validation.location', 'src/py/validation')
+        self.application.bind('notifications.location', 'src/py/notifications')
+        self.application.bind('events.location', 'src/py/events')
+        self.application.bind('tasks.location', 'src/py/tasks')
+        self.application.bind('models.location', 'src/py/models')
+        self.application.bind('observers.location', 'src/py/models/observers')
+        self.application.bind('policies.location', 'src/py/policies')
+        self.application.bind('commands.location', 'src/py/commands')
+        self.application.bind('middlewares.location', 'src/py/middlewares')
 
-        self.application.bind("server.runner", "masonite.commands.ServeCommand.main")
+        self.application.bind('server.runner', 'masonite.commands.ServeCommand.main')
 
     def register_middleware(self) -> None:
-        self.application.make("middleware").add(self.route_middleware).add(self.http_middleware)
+        self.application.make('middleware').add(self.route_middleware).add(self.http_middleware)
 
     def register_routes(self) -> None:
-        Route.set_controller_locations("src/py/front_end/app/controllers")
-        self.application.bind("routes.location", "routes/web")
-        self.application.make("router").add(
+        Route.set_controller_locations('src/py/front_end/app/controllers')
+        self.application.bind('routes.location', 'routes/web')
+        self.application.make('router').add(
             Route.group(
-                load(self.application.make("routes.location"), "ROUTES"), middleware=["web"]
+                load(self.application.make('routes.location'), 'ROUTES'), middleware=['web']
             )
         )
 
@@ -86,22 +86,22 @@ class Kernel:
         from masoniteorm.query import QueryBuilder
 
         self.application.bind(
-            "builder",
-            QueryBuilder(connection_details=config("database.databases")),
+            'builder',
+            QueryBuilder(connection_details=config('database.databases')),
         )
 
-        self.application.bind("migrations.location", "")
-        self.application.bind("seeds.location", "")
+        self.application.bind('migrations.location', '')
+        self.application.bind('seeds.location', '')
 
-        self.application.bind("resolver", config("database.db"))
+        self.application.bind('resolver', config('database.db'))
 
     def register_templates(self) -> None:
-        self.application.bind("views.location", "ui/jinja/")
+        self.application.bind('views.location', 'ui/jinja/')
 
     def register_storage(self) -> None:
         storage = StorageCapsule()
-        storage.add_storage_assets(config("filesystem.staticfiles"))
-        self.application.bind("storage_capsule", storage)
+        storage.add_storage_assets(config('filesystem.staticfiles'))
+        self.application.bind('storage_capsule', storage)
 
         self.application.set_response_handler(response_handler)
-        self.application.use_storage_path(base_path("storage"))
+        self.application.use_storage_path(base_path('storage'))

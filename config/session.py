@@ -1,4 +1,4 @@
 DRIVERS = {
-    "default": "cookie",
-    "cookie": {},
+    'default': 'cookie',
+    'cookie': {},
 }

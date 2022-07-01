@@ -5,4 +5,4 @@ from masonite.controllers import Controller
 class WelcomeController(Controller):
 
     def show(self, view: View) -> str:
-        return view.render("welcome")
+        return view.render('welcome')
