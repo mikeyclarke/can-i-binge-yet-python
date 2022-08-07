@@ -1,0 +1,6 @@
+from ..foundation.Application import Application
+
+class MixHelper:
+    app: Application
+    def __init__(self, app: Application) -> None: ...
+    def url(self, path: str, manifest_dir: str = ...) -> str: ...

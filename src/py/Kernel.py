@@ -10,9 +10,10 @@ from masonite.middleware import (
     LoadUserMiddleware,
     MaintenanceModeMiddleware,
 )
-from masonite.routes import Route
+from masonite.routes import Route, HTTPRoute
 from masonite.configuration.Configuration import Configuration
 from masonite.configuration import config
+from typing import cast
 
 from src.py.middlewares import VerifyCsrfToken, AuthenticationMiddleware
 
@@ -76,14 +77,16 @@ class Kernel:
     def register_routes(self) -> None:
         Route.set_controller_locations('src/py/front_end/app/controllers')
         self.application.bind('routes.location', 'routes/web')
+        routes = load(self.application.make('routes.location'), 'ROUTES')
+        routes = cast(list[HTTPRoute], routes)
         self.application.make('router').add(
             Route.group(
-                load(self.application.make('routes.location'), 'ROUTES'), middleware=['web']
+                routes, middleware=['web']
             )
         )
 
     def register_database(self) -> None:
-        from masoniteorm.query import QueryBuilder
+        from masoniteorm.query import QueryBuilder # type: ignore
 
         self.application.bind(
             'builder',
