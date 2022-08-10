@@ -1,6 +1,13 @@
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
 ## ---------
+##	Docker images
+## ---------
+
+build_docker_image:
+	docker build -t bingeable-py .
+
+## ---------
 ##	Container management
 ## ---------
 
@@ -25,30 +32,33 @@ container_shell: ## Open an interactive shell in the main python container
 
 test: test_py
 
-test_py: flake8 bandit ## Run all python code tests (pylint, and bandit)
+test_py: mypy flake8 bandit ## Run all python code tests (pylint, and bandit)
 
 ## ---------
 ##	Coding standards
 ## ---------
 
 flake8: ## Check that python code complies with sylistic rules
-	docker exec -it bingeable-py pdm run flake8
+	docker exec -it bingeable-py poetry run flake8
 
 ## ---------
 ##	Static analysis
 ## ---------
 
+mypy: ## Check that python code passes type checking
+	docker exec -it bingeable-py poetry run mypy --strict src/py/
+
 bandit: ## Check that python code passes bandit security analysis
-	docker exec -it bingeable-py pdm run bandit -r ./
+	docker exec -it bingeable-py poetry run bandit -r ./
 
 ## ---------
 ##	Dependencies
 ## ---------
 
-install_dependencies: pdm_install ## Install pdm packages
+install_dependencies: poetry_install ## Install poetry packages
 
-pdm_install: ## Install pdm packages
-	docker exec -it bingeable-py pdm install
+poetry_install: ## Install poetry packages
+	docker exec -it bingeable-py poetry install
 
 ## ---------
 ##	Make setup

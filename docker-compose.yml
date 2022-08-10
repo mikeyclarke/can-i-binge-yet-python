@@ -6,4 +6,3 @@ services:
       - 8000:8000
     volumes:
       - .:/var/bingeable
-      - /var/bingeable/__pypackages__ # https://stackoverflow.com/a/32785014
