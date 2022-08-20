@@ -1,0 +1,34 @@
+@use 'config/config';
+@use 'helpers/focus-visible';
+
+$border-radius: config.config-get(size, button, border-radius);
+$outline-offset: config.config-get(size, button, outline, offset);
+$outline-width: config.config-get(size, button, outline, width);
+
+%unstyled-button {
+    background: none;
+    border: 0;
+    border-radius: $border-radius;
+    box-shadow: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding: 0;
+}
+
+%focus-ring-button {
+    @include focus-visible.focus-visible() {
+        animation: input-focus-ring 4s alternate infinite;
+        outline-offset: $outline-offset;
+        outline-width: $outline-width;
+        outline-style: solid;
+    }
+}
+
+%dark-active-state-button {
+    filter: brightness(1);
+    transition: filter .35s ease-in-out;
+}
+
+%dark-active-state-button:active {
+    filter: brightness(.8);
+}

@@ -1,0 +1,41 @@
+@use 'sass:map';
+@use 'config/config';
+
+$color-scheme-vars: map.keys(config.config-get(color, schemes, light));
+
+:root {
+    @each $name in $color-scheme-vars {
+        --light-scheme-#{$name}: #{config.config-get(color, schemes, light, $name)};
+        --dark-scheme-#{$name}: #{config.config-get(color, schemes, dark, $name)};
+    }
+
+    @each $name in $color-scheme-vars {
+        --#{$name}: var(--light-scheme-#{$name});
+    }
+
+    @media (prefers-color-scheme: dark) {
+        @each $name in $color-scheme-vars {
+            --#{$name}: var(--dark-scheme-#{$name});
+        }
+    }
+}
+
+:root {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    color-scheme: light dark;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@keyframes input-focus-ring {
+    from {
+        outline-color: var(--outline-color-start);
+    }
+
+    to {
+        outline-color: var(--outline-color-end);
+    }
+}

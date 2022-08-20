@@ -1,8 +1,36 @@
 services:
   python:
     container_name: bingeable-py
-    build: .
+    build:
+      dockerfile: ./docker/python/Dockerfile
+      context: ./
+    depends_on:
+      - redis
     ports:
       - 8000:8000
     volumes:
       - .:/var/bingeable
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+  redis:
+    image: redis:7.0-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-store:/data
+    environment:
+      ALLOW_EMPTY_PASSWORD: 'yes'
+
+  node:
+    container_name: bingeable-node
+    build:
+      dockerfile: ./docker/node/Dockerfile
+      context: ./
+    volumes:
+      - .:/var/bingeable
+    tty: true
+
+volumes:
+  redis-store:

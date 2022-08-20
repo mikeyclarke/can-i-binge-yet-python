@@ -1,0 +1,21 @@
+$config: (
+    inline-page-offset: 20px,
+    end-of-page-offset: 85px,
+    larger-text-min-width: 720px,
+    poster-border-radius: 4px,
+    min-button-diameter: 46px,
+    button: (
+        border-radius: 4px,
+        outline: (
+            offset: 0,
+            width: 2px,
+        ),
+    ),
+    input: (
+        border-radius: 4px,
+        outline: (
+            offset: 4px,
+            width: 2px,
+        ),
+    ),
+);

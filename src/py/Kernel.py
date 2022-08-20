@@ -86,7 +86,7 @@ class Kernel:
         )
 
     def register_database(self) -> None:
-        from masoniteorm.query import QueryBuilder # type: ignore
+        from masoniteorm.query import QueryBuilder  # type: ignore
 
         self.application.bind(
             'builder',

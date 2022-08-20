@@ -1,3 +1,5 @@
 from masonite.routes import Route
 
-ROUTES = [Route.get('/', 'WelcomeController@show')]
+ROUTES = [
+    Route.get('/', 'HomeController@show').name('home'),
+]

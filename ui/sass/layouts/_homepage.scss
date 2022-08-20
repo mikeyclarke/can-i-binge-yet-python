@@ -1,0 +1,44 @@
+@use 'config/config';
+@use 'helpers/breakpoint';
+
+$top-bar-margin-bottom: 65px;
+$title-margin-bottom: 16px;
+$search-box-margin-bottom: 44px;
+
+$top-bar-larger-margin-bottom: 98px;
+$title-larger-margin-bottom: 28px;
+$search-box-larger-margin-bottom: 120px;
+
+$trending-shows-margin-bottom: config.config-get(size, end-of-page-offset);
+
+.l-homepage {
+    --l-top-bar-margin-bottom: #{$top-bar-margin-bottom};
+    --l-title-margin-bottom: #{$title-margin-bottom};
+    --l-search-box-margin-bottom: #{$search-box-margin-bottom};
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoint.breakpoint(config.config-get(size, larger-text-min-width)) {
+        --l-top-bar-margin-bottom: #{$top-bar-larger-margin-bottom};
+        --l-title-margin-bottom: #{$title-larger-margin-bottom};
+        --l-search-box-margin-bottom: #{$search-box-larger-margin-bottom};
+    }
+}
+
+.l-homepage__top-bar {
+    margin-block-end: var(--l-top-bar-margin-bottom);
+}
+
+.l-homepage__title {
+    margin-inline: auto;
+    margin-block-start: 0;
+    margin-block-end: var(--l-title-margin-bottom);
+}
+
+.l-homepage__search-box {
+    margin-block-end: var(--l-search-box-margin-bottom);
+}
+
+.l-homepage__trending-shows {
+    margin-block-end: $trending-shows-margin-bottom;
+}

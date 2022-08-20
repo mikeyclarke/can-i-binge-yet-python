@@ -1,21 +1,16 @@
+from masonite.environment import env
+
 STORES = {
-    'default': 'local',
+    'default': 'redis',
     'local': {
         'driver': 'file',
         'location': 'storage/framework/cache',
     },
     'redis': {
         'driver': 'redis',
-        'host': '127.0.0.1',
-        'port': '6379',
+        'host': env('REDIS_HOST'),
+        'port': env('REDIS_PORT'),
         'password': '',
-        'name': 'project_name',
-    },
-    'memcache': {
-        'driver': 'memcache',
-        'host': '127.0.0.1',
-        'port': '11211',
-        'password': '',
-        'name': 'project_name',
+        'name': 'bingeable',
     },
 }

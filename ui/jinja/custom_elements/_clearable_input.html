@@ -1,0 +1,20 @@
+{% macro clearable_input(input_id, className = none, attrs = {}) %}
+    <clearable-input>
+        <input
+            id="{{ input_id }}"
+            {% if className is not none %}
+                class="{{ className }}"
+            {% endif %}
+            {% for name, value in attrs.items() %}
+                {% if value is none %}
+                    {{ name }}
+                {% else %}
+                    {{ name }}="{{ value }}"
+                {% endif %}
+            {% endfor %}
+        >
+        <button class="{{ className }}-clear-button" type="button" aria-controls="{{ input_id }}" aria-label="Clear" hidden>
+            <svg class="{{ className }}-clear-button-icon" aria-hidden="true"><use xlink:href="#icon-sprite__clear"/></svg>
+        </button>
+    </clearable-input>
+{% endmacro %}

@@ -1,0 +1,36 @@
+@use 'config/config';
+
+$clear-button-width: config.config-get(size, min-button-diameter);
+
+clearable-input {
+    display: inline-block;
+    position: relative;
+    --clear-button-width: #{$clear-button-width};
+}
+
+clearable-input input {
+    padding-inline-end: var(--clear-button-width);
+}
+
+clearable-input input::-webkit-search-cancel-button {
+    display: none;
+}
+
+clearable-input input::-ms-clear {
+    display: none;
+}
+
+clearable-input button {
+    display: flex;
+    height: 100%;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    position: absolute;
+    width: var(--clear-button-width);
+}
+
+clearable-input button svg {
+    height: 1em;
+    margin: auto;
+    width: 1em;
+}

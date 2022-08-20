@@ -1,0 +1,23 @@
+{% from 'custom_elements/_clearable_input.html' import clearable_input %}
+
+{% macro render_search_input(search_token = none) %}
+    <form method="GET" action="{{ route('home') }}" class="search-box" novalidate>
+        {% set search_input_attributes = {
+            'aria-label': 'Search for a show',
+            'type': 'search',
+            'name': 'q',
+            'placeholder': 'e.g. ' ~ config('application.search_input_placeholder_example'),
+            'required': none,
+        } %}
+
+        {% if search_token is not none %}
+            {% do search_input_attributes.update({'value': search_token}) %}
+        {% endif %}
+
+        {{ clearable_input('search-input', 'search-box__input', search_input_attributes) }}
+
+        <button class="search-box__submit-button" type="submit" aria-label="Search">
+            <svg class="search-box__submit-button-icon" aria-hidden="true"><use xlink:href="#icon-sprite__search"/></svg>
+        </button>
+    </form>
+{% endmacro %}

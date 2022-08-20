@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% if html_title is defined %}{{ html_title }} – {% endif %}Bingeable</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{{ manifest_asset_url('app.css') }}">
+    </head>
+
+    <body {% block body_element_attributes %}{% endblock %}>
+        {% include '_icon_sprite.html' %}
+
+        {% block content %}{% endblock %}
+
+        <script src="{{ manifest_asset_url('app.js') }}"></script>
+    </body>
+</html>

@@ -1,0 +1,53 @@
+@use 'sass:list';
+@use 'sass:string';
+@use 'config/config';
+
+$border-radius: config.config-get(size, input, border-radius);
+$outline-offset: config.config-get(size, input, outline, offset);
+$outline-width: config.config-get(size, input, outline, width);
+
+$box-input-types: (
+    date,
+    datetime-local,
+    email,
+    month,
+    number,
+    password,
+    search,
+    tel,
+    text,
+    time,
+    url,
+    week,
+);
+
+$typesSelector: ();
+@each $type in $box-input-types {
+    $typesSelector: list.append($typesSelector, string.unquote('[type="#{$type}"]'), 'comma');
+}
+
+input:where(#{$typesSelector}) {
+    background-color: var(--input-background-color);
+    border: 0;
+    border-radius: $border-radius;
+    box-shadow: none;
+}
+
+input:focus:where(#{$typesSelector}) {
+    animation: input-focus-ring 4s alternate infinite;
+    outline-offset: $outline-offset;
+    outline-width: $outline-width;
+    outline-style: solid;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    input:focus:where(#{$typesSelector}) {
+        animation: none;
+        outline-color: var(--outline-color-start);
+    }
+}
+
+::placeholder {
+    color: var(--input-placeholder-color);
+    opacity: 1;
+}

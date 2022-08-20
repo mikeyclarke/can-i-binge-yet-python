@@ -32,14 +32,14 @@ container_shell: ## Open an interactive shell in the main python container
 
 test: test_py
 
-test_py: mypy flake8 bandit ## Run all python code tests (pylint, and bandit)
+test_py: mypy flake8 bandit pytest ## Run all python code tests
 
 ## ---------
 ##	Coding standards
 ## ---------
 
 flake8: ## Check that python code complies with sylistic rules
-	docker exec -it bingeable-py poetry run flake8
+	docker exec -it bingeable-py poetry run flake8 src/py/ tests/py/
 
 ## ---------
 ##	Static analysis
@@ -49,7 +49,17 @@ mypy: ## Check that python code passes type checking
 	docker exec -it bingeable-py poetry run mypy --strict src/py/
 
 bandit: ## Check that python code passes bandit security analysis
-	docker exec -it bingeable-py poetry run bandit -r ./
+	docker exec -it bingeable-py poetry run bandit -r src/py
+
+## ---------
+##	Unit tests
+## ---------
+
+pytest: ## Run python unit tests
+	docker exec -it bingeable-py poetry run pytest tests/py
+
+jest: ## Run TypeScript unit tests
+	docker exec -it bingeable-node yarn run jest --verbose --silent=false
 
 ## ---------
 ##	Dependencies
@@ -59,6 +69,16 @@ install_dependencies: poetry_install ## Install poetry packages
 
 poetry_install: ## Install poetry packages
 	docker exec -it bingeable-py poetry install
+
+## ---------
+##	Asset compilation
+## ---------
+
+webpack_watch: ## Have webpack watch source files and re-compile assets on change
+	docker exec -it bingeable-node yarn run webpack --watch --config webpack.dev.js
+
+webpack_compile: ## Have webpack execute a one-off asset compilation
+	docker exec -it bingeable-node yarn run webpack --config webpack.dev.js
 
 ## ---------
 ##	Make setup

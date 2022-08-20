@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "moduleResolution": "node",
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "strict": true,
+        "baseUrl": "./src/ts",
+        "target": "es2022",
+        "typeRoots": ["./node_modules/@types"]
+    },
+    "include": ["src/ts"]
+}

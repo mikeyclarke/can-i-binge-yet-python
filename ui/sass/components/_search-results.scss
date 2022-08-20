@@ -1,0 +1,131 @@
+@use 'config/config';
+@use 'helpers/breakpoint';
+
+$margin-inline: config.config-get(size, inline-page-offset);
+$margin-bottom: config.config-get(size, end-of-page-offset);
+$max-width: 784px;
+
+$larger-layout-breakpoint: $max-width + ($margin-inline * 2);
+
+$legend-line-height: 1.4;
+$legend-margin-bottom: 26px;
+$legend-larger-layout-margin-bottom: 32px;
+
+$result-column-gap: 20px;
+$result-larger-layout-column-gap: 40px;
+$result-padding-block: 10px;
+$result-larger-layout-padding-block: 24px;
+
+$result-poster-width: 70px;
+
+$result-title-margin-bottom: 4px;
+$result-title-larger-layout-margin-bottom: 8px;
+$result-title-text-size: 16px;
+$result-title-larger-layout-text-size: 18px;
+$result-title-text-weight: 600;
+
+$result-meta-text-size: 14px;
+$result-meta-larger-layout-text-size: 16px;
+
+.search-results {
+    margin-inline: $margin-inline;
+    margin-block-end: $margin-bottom;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        margin-inline: auto;
+        max-width: $max-width;
+    }
+}
+
+.search-results__results-legend {
+    line-height: $legend-line-height;
+    margin-block-start: 0;
+    margin-block-end: $legend-margin-bottom;
+    text-align: center;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        margin-block-end: $legend-larger-layout-margin-bottom;
+    }
+}
+
+.search-results__results-legend strong {
+    font-weight: 500;
+}
+
+.search-results__results-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.search-results__result {
+    display: grid;
+    column-gap: $result-column-gap;
+    grid-template-columns: $result-poster-width 1fr;
+    padding-block: $result-padding-block;
+    position: relative;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        column-gap: $result-larger-layout-column-gap;
+        padding-block: $result-larger-layout-padding-block;
+    }
+}
+
+.search-results__result:first-child {
+    padding-block-start: 0;
+}
+
+.search-results__result:last-child {
+    padding-block-end: 0;
+}
+
+.search-results__result::after {
+    background-color: var(--decoration-against-default-background-color);
+    inset-block-end: 0;
+    content: '';
+    height: 1px;
+    inset-inline-start: $result-poster-width + $result-column-gap;
+    inset-inline-end: 0;
+    position: absolute;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        inset-inline-start: $result-poster-width + $result-larger-layout-column-gap;
+    }
+}
+
+.search-results__result:last-child::after {
+    content: none;
+}
+
+.search-results__result-poster {
+    --poster-width: #{$result-poster-width};
+}
+
+.search-results__result-info {
+    align-self: center;
+}
+
+.search-results__result-title {
+    font-size: $result-title-text-size;
+    font-weight: $result-title-text-weight;
+    margin-block-start: 0;
+    margin-block-end: $result-title-margin-bottom;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        font-size: $result-title-larger-layout-text-size;
+        margin-block-end: $result-title-larger-layout-margin-bottom;
+    }
+}
+
+.search-results__result-title:only-child {
+    margin-block-end: 0;
+}
+
+.search-results__result-meta {
+    color: var(--foreground-color-muted);
+    font-size: $result-meta-text-size;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        font-size: $result-meta-larger-layout-text-size;
+    }
+}

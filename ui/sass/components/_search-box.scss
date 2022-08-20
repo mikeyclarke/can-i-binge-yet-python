@@ -1,0 +1,78 @@
+@use 'config/config';
+@use 'helpers/button';
+@use 'helpers/breakpoint';
+
+$height: 48px;
+$larger-height: 52px;
+$margin-inline: config.config-get(size, inline-page-offset);
+$max-width: 615px;
+$padding-inline-start: 16px;
+$fixed-size-min-width: $max-width + ($margin-inline * 2);
+
+$clear-button-width: 36px;
+
+$submit-icon-color: config.config-get(color, input-icon-color);
+$submitable-submit-icon-color: config.config-get(color, blue);
+
+$submit-button-width: 46px;
+$submit-button-icon-diameter: 24px;
+
+.search-box {
+    --search-box-height: #{$height};
+    --submit-button-width: #{$submit-button-width};
+    display: grid;
+    height: var(--search-box-height);
+    margin-inline: $margin-inline;
+    position: relative;
+
+    @include breakpoint.breakpoint($fixed-size-min-width) {
+        --search-box-height: #{$larger-height};
+        margin-inline: auto;
+        max-width: $max-width;
+    }
+}
+
+.search-box clearable-input {
+    --clear-button-width: #{$clear-button-width};
+}
+
+.search-box__input {
+    height: 100%;
+    padding-inline-start: $padding-inline-start;
+    padding-inline-end: calc(var(--clear-button-width) + var(--submit-button-width));
+    width: 100%;
+}
+
+.search-box__input-clear-button {
+    @extend %unstyled-button;
+    @extend %focus-ring-button;
+    @extend %dark-active-state-button;
+    inset-inline-end: var(--submit-button-width);
+}
+
+.search-box__input-clear-button-icon {
+    fill: $submit-icon-color;
+}
+
+.search-box__submit-button {
+    @extend %unstyled-button;
+    @extend %focus-ring-button;
+    @extend %dark-active-state-button;
+    display: flex;
+    height: 100%;
+    width: var(--submit-button-width);
+    position: absolute;
+    inset-inline-end: 0;
+}
+
+.search-box__submit-button-icon {
+    fill: $submit-icon-color;
+    height: $submit-button-icon-diameter;
+    margin: auto;
+    transition: fill .35s ease-in-out;
+    width: $submit-button-icon-diameter;
+}
+
+.search-box:valid .search-box__submit-button-icon {
+    fill: $submitable-submit-icon-color;
+}

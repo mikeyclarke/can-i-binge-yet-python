@@ -1,0 +1,23 @@
+{% from 'search/_search_input.html' import render_search_input with context %}
+
+{% extends 'base_layout.html' %}
+
+{% block body_element_attributes %}class="l-homepage"{% endblock %}
+
+{% block content %}
+
+<div class="l-homepage__top-bar">
+    {% include '_top_bar.html' %}
+</div>
+
+<h1 class="l-homepage__title">Search for a show</h1>
+
+<div class="l-homepage__search-box">
+    {{ render_search_input() }}
+</div>
+
+<div class="l-homepage__trending-shows">
+    {% include 'show/_trending_shows.html' %}
+</div>
+
+{% endblock %}

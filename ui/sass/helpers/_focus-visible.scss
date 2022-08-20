@@ -1,0 +1,17 @@
+@mixin focus-visible() {
+    @supports not (selector(:focus-visible)) {
+        &:focus {
+            @content;
+        }
+    }
+
+    @supports (selector(:focus-visible)) {
+        &:focus {
+            outline: 0;
+        }
+
+        &:focus-visible {
+            @content;
+        }
+    }
+}

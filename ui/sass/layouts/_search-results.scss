@@ -1,0 +1,28 @@
+@use 'config/config';
+@use 'helpers/breakpoint';
+
+$top-bar-margin-bottom: 0;
+$top-bar-larger-margin-bottom: 68px;
+
+$search-box-margin-bottom: 32px;
+$search-box-larger-margin-bottom: 42px;
+
+.l-search-results {
+    --l-top-bar-margin-bottom: #{$top-bar-margin-bottom};
+    --l-search-box-margin-bottom: #{$search-box-margin-bottom};
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoint.breakpoint(config.config-get(size, larger-text-min-width)) {
+        --l-top-bar-margin-bottom: #{$top-bar-larger-margin-bottom};
+        --l-search-box-margin-bottom: #{$search-box-larger-margin-bottom};
+    }
+}
+
+.l-search-results__top-bar {
+    margin-block-end: var(--l-top-bar-margin-bottom);
+}
+
+.l-search-results__search-box {
+    margin-block-end: var(--l-search-box-margin-bottom);
+}

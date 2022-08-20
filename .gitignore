@@ -1,9 +1,16 @@
-__pypackages__
-__pycache__
-.pdm.toml
+public/compiled
 
 .env
 .env.*
 !.env.testing
 
 **/*.DS_Store
+
+node_modules
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

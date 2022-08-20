@@ -1,0 +1,28 @@
+$config: (
+    schemes: (
+        light: (
+            background-color: #f9f7f2,
+            foreground-color: #181c25,
+            foreground-color-muted: #757b8a,
+            decoration-against-default-background-color: #e3e5e8,
+            poster-shadow-color: rgba(#181c25, .5),
+            input-background-color: #fff,
+            input-placeholder-color: #858ca3,
+            outline-color-start: hsl(211, 71%, 53%),
+            outline-color-end: hsl(194, 79%, 41%),
+        ),
+        dark: (
+            background-color: #14171f,
+            foreground-color: #f9f7f2,
+            foreground-color-muted: #858ca3,
+            decoration-against-default-background-color: #282e3e,
+            poster-shadow-color: rgba(#181c25, 1),
+            input-background-color: #282e3e,
+            input-placeholder-color: #858ca3,
+            outline-color-start: hsl(211, 71%, 53%),
+            outline-color-end: hsl(211, 90%, 53%),
+        ),
+    ),
+    blue: #3083dc,
+    input-icon-color: #858ca3,
+);

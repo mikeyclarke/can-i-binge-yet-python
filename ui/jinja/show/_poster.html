@@ -1,0 +1,29 @@
+{% set fallback_images = ['92w', '154w', '185w', '342w', '500w', '780w'] %}
+
+{% macro render_poster(poster_image, sizes, className = none, alt = none, show_placeholder_fallback = true) %}
+    {% if poster_image is not none %}
+        <img
+            class="poster{% if className is not none %} {{ className }}{% endif %}"
+            src="{{ poster_image.default }}"
+            srcset="{{ poster_image.srcset }}"
+            sizes="{{ sizes }}"
+            alt="{% if alt is not none %}{{ alt }}{% endif %}"
+        >
+    {% elif show_placeholder_fallback %}
+        <picture>
+            <source
+                srcset="{% for size in fallback_images %}/static/images/poster-placeholder/{{ size }}.webp {{ size }}{% if not loop.last %}, {% endif %}{% endfor %}"
+                type="image/webp"
+                sizes="{{ sizes }}"
+            >
+
+            <img
+                class="poster{% if className is defined %} {{ className }}{% endif %}"
+                src="/static/images/poster-placeholder/780w.png"
+                srcset="{% for size in fallback_images %}/static/images/poster-placeholder/{{ size }}.png {{ size }}{% if not loop.last %}, {% endif %}{% endfor %}"
+                sizes="{{ sizes }}"
+                alt="{% if alt is not none %}{{ alt }}{% endif %}"
+            >
+        </picture>
+    {% endif %}
+{% endmacro %}

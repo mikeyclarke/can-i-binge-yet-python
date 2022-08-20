@@ -1,0 +1,13 @@
+{% from 'show/_poster.html' import render_poster %}
+
+<div class="trending-shows">
+    <h2 class="trending-shows__title">Trending</h2>
+
+    <ul class="trending-shows__list">
+        {% for show in trending_shows %}
+            <li class="trending-shows__show">
+                {{ render_poster(show.poster_image, sizes='(min-width: 1080px) 144px, 90px', className='trending-shows__show-poster', alt=show.title) }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

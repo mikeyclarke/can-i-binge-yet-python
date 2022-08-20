@@ -1,0 +1,29 @@
+{% from 'show/_poster.html' import render_poster %}
+
+<div class="search-results">
+    <p class="search-results__results-legend">We found <strong>{{ results.total_results }}</strong> show{% if results.total_results != 1 %}s{% endif %} matching “<strong>{{ search_token }}</strong>”</p>
+
+    <ol class="search-results__results-list">
+        {% for show in results.shows %}
+            {% if show.year is not none and show.countries_emoji|length > 0 %}
+                {% set show_meta = show.year ~ ' ' ~ show.countries_emoji|join(' ') %}
+            {% elif show.year is not none %}
+                {% set show_meta = show.year %}
+            {% elif show.countries_emoji|length > 0 %}
+                {% set show_meta = show.countries_emoji|join(' ') %}
+            {% else %}
+                {% set show_meta = none %}
+            {% endif %}
+
+            <li class="search-results__result">
+                {{ render_poster(show.poster_image, sizes='70px', className='search-results__result-poster') }}
+                <div class="search-results__result-info">
+                    <h2 class="search-results__result-title">{{ show.title }}</h2>
+                    {% if show_meta is not none %}
+                        <span class="search-results__result-meta">{{ show_meta }}</span>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ol>
+</div>

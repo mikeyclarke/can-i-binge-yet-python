@@ -1,0 +1,21 @@
+@use 'sass:math';
+@use 'config/config';
+
+$base-width: 70;
+$shadow-offset-y: 2;
+$shadow-blur: 6;
+
+:root {
+    --poster-width: #{$base-width}px;
+}
+
+.poster {
+    aspect-ratio: 2 / 3;
+    border-radius: config.config-get(size, poster-border-radius);
+    box-shadow:
+        0
+        calc(#{$shadow-offset-y} * calc(var(--poster-width) / #{$base-width}))
+        calc(#{$shadow-blur} * calc(var(--poster-width) / #{$base-width}))
+        var(--poster-shadow-color)
+    ;
+}

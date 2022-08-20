@@ -1,0 +1,6 @@
+@use 'sass:string';
+@use 'config/config';
+
+body {
+    font-family: string.unquote(config.config-get(typography, font-stack));
+}

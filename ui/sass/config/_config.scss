@@ -1,0 +1,26 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:string';
+@use 'config/color';
+@use 'config/size';
+@use 'config/typography';
+
+$config: ();
+
+$config: map.merge($config, ('color': color.$config));
+$config: map.merge($config, ('size': size.$config));
+$config: map.merge($config, ('typography': typography.$config));
+
+@function config-get($args...) {
+    $c: $config;
+
+    @each $arg in $args {
+        @if map.has-key($c, $arg) == false {
+            @warn 'Config entry not found';
+        }
+        $c: map.get($c, $arg);
+    }
+
+    @return $c;
+}

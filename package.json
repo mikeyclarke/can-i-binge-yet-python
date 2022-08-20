@@ -1,0 +1,25 @@
+{
+  "name": "bingeable",
+  "private": true,
+  "packageManager": "yarn@3.2.2",
+  "devDependencies": {
+    "@types/jest": "^28.1",
+    "clean-webpack-plugin": "^4.0",
+    "css-loader": "^6.7",
+    "jest": "^28.1",
+    "jest-environment-jsdom": "^28.1",
+    "mini-css-extract-plugin": "^2.6",
+    "sass": "^1.54",
+    "sass-loader": "^13.0",
+    "ts-jest": "^28.0",
+    "ts-loader": "^9.3",
+    "typescript": "^4.7",
+    "webpack": "^5.74",
+    "webpack-assets-manifest": "^5.1",
+    "webpack-cli": "^4.10",
+    "webpack-merge": "^5.8"
+  },
+  "dependencies": {
+    "modern-normalize": "^1.1"
+  }
+}

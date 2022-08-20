@@ -1,0 +1,75 @@
+@use 'config/config';
+@use 'helpers/breakpoint';
+
+$margin-inline: config.config-get(size, inline-page-offset);
+$max-width: 1240px;
+$margin-inline-larger: calc(calc(100vw - #{$max-width}) / 2);
+
+$title-margin-bottom: 16px;
+$title-text-size: 18px;
+$title-text-weight: 600;
+$title-larger-text-size: 21px;
+$title-larger-margin-bottom: 24px;
+
+$show-poster-gap: 20px;
+$show-poster-width: 90px;
+$show-poster-larger-gap: 24px;
+$show-poster-larger-width: 144px;
+$show-poster-scroll-track-offset: 6px;
+$show-poster-larger-scroll-track-offset: 12px;
+
+$poster-columns: 10;
+$poster-columns-larger: 20;
+
+$larger-posters-min-width: 1080px;
+$dynamic-inline-offset-min-width: $max-width + $margin-inline;
+
+.trending-shows {
+    --inline-offset: #{$margin-inline};
+    --title-text-size: #{$title-text-size};
+    --title-margin-bottom: #{$title-margin-bottom};
+    --poster-column-gap: #{$show-poster-gap};
+    --poster-columns: #{$poster-columns};
+    --poster-scroll-track-offset: #{$show-poster-scroll-track-offset};
+    --show-poster-width: #{$show-poster-width};
+
+    @include breakpoint.breakpoint(config.config-get(size, larger-text-min-width)) {
+        --title-text-size: #{$title-larger-text-size};
+        --title-margin-bottom: #{$title-larger-margin-bottom};
+    }
+
+    @include breakpoint.breakpoint($larger-posters-min-width) {
+        --show-poster-width: #{$show-poster-larger-width};
+        --poster-columns: #{$poster-columns-larger};
+        --poster-column-gap: #{$show-poster-larger-gap};
+        --poster-scroll-track-offset: #{$show-poster-larger-scroll-track-offset};
+    }
+
+    @include breakpoint.breakpoint($dynamic-inline-offset-min-width) {
+        --inline-offset: #{$margin-inline-larger};
+    }
+}
+
+.trending-shows__title {
+    font-size: var(--title-text-size);
+    font-weight: $title-text-weight;
+    margin-block-start: 0;
+    margin-block-end: var(--title-margin-bottom);
+    margin-inline: var(--inline-offset);
+}
+
+.trending-shows__list {
+    display: grid;
+    gap: var(--poster-column-gap);
+    grid-template-columns: repeat(var(--poster-columns), var(--show-poster-width));
+    list-style: none;
+    margin: 0;
+    overflow-x: auto;
+    padding-block-start: 0;
+    padding-block-end: var(--poster-scroll-track-offset);
+    padding-inline: var(--inline-offset);
+}
+
+.trending-shows__show-poster {
+    --poster-width: var(--show-poster-width);
+}
