@@ -1,0 +1,26 @@
+name: Test
+
+on: [push]
+
+jobs:
+  test_ts:
+    name: Bingeable TypeScript tests (Node ${{ matrix.node-versions }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-versions: [18]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-versions }}
+          cache: 'yarn'
+
+      - name: Install yarn packages
+        run: yarn install --immutable
+
+      - name: Run TypeScript unit tests
+        run: yarn run jest
