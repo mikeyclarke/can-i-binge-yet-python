@@ -30,9 +30,11 @@ container_shell: ## Open an interactive shell in the main python container
 ##	Testing
 ## ---------
 
-test: test_py
+test: test_py test_ts ## Run all code tests
 
 test_py: mypy flake8 bandit pytest ## Run all python code tests
+
+test_ts: jest ## Run all TypeScript code tests
 
 ## ---------
 ##	Coding standards
