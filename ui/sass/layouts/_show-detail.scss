@@ -1,0 +1,93 @@
+@use 'config/config';
+@use 'helpers/breakpoint';
+
+$header-margin-bottom: 32px;
+
+$body-margin-inline: config.config-get(size, inline-page-offset);
+$body-margin-bottom: config.config-get(size, end-of-page-offset);
+$body-max-width: config.config-get(size, layout-max-width);
+$larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
+
+$networks-column-gap: 12px;
+$networks-row-gap: 8px;
+$networks-margin: 14px 0 0;
+$larger-layout-networks-column-gap: 24px;
+$larger-layout-networks-row-gap: 12px;
+$larger-layout-networks-margin: 20px 0 0;
+
+$section-title-font-size: 18px;
+$section-title-margin: 0 0 12px;
+$larger-layout-section-title-font-size: 21px;
+
+$seasons-gap: 8px;
+$larger-layout-seasons-gap: 12px;
+
+.l-show-detail {
+    --layout-margin-inline: #{$body-margin-inline};
+    --networks-column-gap: #{$networks-column-gap};
+    --networks-row-gap: #{$networks-row-gap};
+    --networks-margin: #{$networks-margin};
+    --seasons-gap: #{$seasons-gap};
+    --section-title-font-size: #{$section-title-font-size};
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        --layout-margin-inline: auto;
+        --networks-column-gap: #{$larger-layout-networks-column-gap};
+        --networks-row-gap: #{$larger-layout-networks-row-gap};
+        --networks-margin: #{$larger-layout-networks-margin};
+        --seasons-gap: #{$larger-layout-seasons-gap};
+        --section-title-font-size: #{$larger-layout-section-title-font-size};
+    }
+}
+
+.l-show-detail__top-bar {
+    position: relative;
+    z-index: 1;
+}
+
+.l-show-detail__top-bar.has-backdrop {
+    color: var(--dark-scheme-foreground-color);
+    mix-blend-mode: overlay;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        color: inherit;
+        mix-blend-mode: normal;
+    }
+}
+
+.l-show-detail__top-bar:focus-within {
+    mix-blend-mode: normal;
+}
+
+.l-show-detail__header {
+    margin-block-end: $header-margin-bottom;
+}
+
+.l-show-detail__body {
+    margin-inline: var(--layout-margin-inline);
+    margin-block-end: $body-margin-bottom;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        max-width: $body-max-width;
+    }
+}
+
+.l-show-detail__networks {
+    column-gap: var(--networks-column-gap);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    margin: var(--networks-margin);
+    padding: 0;
+    row-gap: var(--networks-row-gap);
+}
+
+.l-show-detail__section-title {
+    font-size: var(--section-title-font-size);
+    margin: $section-title-margin;
+}
+
+.l-show-detail__season:not(:last-child) {
+    margin-block-end: var(--seasons-gap);
+}

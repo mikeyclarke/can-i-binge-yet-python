@@ -14,7 +14,7 @@
             {% endfor %}
         >
         <button class="{{ className }}-clear-button" type="button" aria-controls="{{ input_id }}" aria-label="Clear" hidden>
-            <svg class="{{ className }}-clear-button-icon" aria-hidden="true"><use xlink:href="#icon-sprite__clear"/></svg>
+            {{ icon('clear', className ~ '-clear-button-icon') }}
         </button>
     </clearable-input>
 {% endmacro %}

@@ -1,13 +1,16 @@
 from masonite.cache import Cache
 from src.py.themoviedb import TheMovieDbClient
+from src.py.url import SlugGenerator
 from .ShowImageFormatter import ShowImageFormatter, ShowImage
 from typing import Any, Optional, TypedDict
 
 
 class TrendingShowResult(TypedDict):
-    tmdb_show_id: int
+    tmdb_id: int
     title: str
     poster_image: Optional[ShowImage]
+    slug: str
+    url_path: str
 
 
 class TrendingShows:
@@ -17,10 +20,12 @@ class TrendingShows:
     def __init__(
         self,
         cache: Cache,
+        slug_generator: SlugGenerator,
         show_image_formatter: ShowImageFormatter,
         tmdb_client: TheMovieDbClient,
     ) -> None:
         self.__cache = cache
+        self.__slug_generator = slug_generator
         self.__show_image_formatter = show_image_formatter
         self.__tmdb_client = tmdb_client
 
@@ -39,10 +44,15 @@ class TrendingShows:
         formatted: list[TrendingShowResult] = []
 
         for result in response_body['results']:
+            tmdb_id = result['id']
+            slug = self.__slug_generator.generate(result['name'])
+
             show: TrendingShowResult = {
-                'tmdb_show_id': result['id'],
+                'tmdb_id': tmdb_id,
                 'title': result['name'],
                 'poster_image': None,
+                'slug': slug,
+                'url_path': f'{tmdb_id}-{slug}',
             }
 
             if result['poster_path'] is not None:

@@ -1,0 +1,70 @@
+@use 'config/config';
+@use 'helpers/breakpoint';
+
+$item-column-gap: 10px;
+$item-padding-block: 16px;
+
+$divider-height: 1px;
+
+$icon-diameter: 24px;
+
+$text-font-size: 16px;
+$text-font-weight: 500;
+$text-line-height: 1.4;
+$text-offset-top: 1px;
+$text-margin-block-end: 12px;
+
+$larger-layout-text-font-size: 18px;
+
+$larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
+
+.icon-list {
+    --item-text-font-size: #{$text-font-size};
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        --item-text-font-size: #{$larger-layout-text-font-size};
+    }
+}
+
+.icon-list__item {
+    align-items: start;
+    column-gap: $item-column-gap;
+    display: grid;
+    grid-template-columns: $icon-diameter 1fr;
+    padding-block: $item-padding-block;
+}
+
+.icon-list__item:not(:last-child) {
+    border-bottom: $divider-height solid var(--decoration-against-content-background-color);
+}
+
+.icon-list:first-child .icon-list__item:first-child {
+    padding-block-start: calc(#{$item-padding-block} - var(--layout-padding-block, 0));
+}
+
+.icon-list:last-child .icon-list__item:last-child {
+    padding-block-end: calc(#{$item-padding-block} - var(--layout-padding-block, 0));
+}
+
+.icon-list__item-icon {
+    height: $icon-diameter;
+    width: $icon-diameter;
+}
+
+.icon-list__item-text {
+    font-size: var(--item-text-font-size);
+    font-weight: $text-font-weight;
+    line-height: $text-line-height;
+    margin: 0 0 $text-margin-block-end;
+}
+
+.icon-list__item-text:first-child {
+    margin-block-start: $text-offset-top;
+}
+
+.icon-list__item-text:last-child {
+    margin-block-end: 0;
+}

@@ -16,13 +16,15 @@
             {% endif %}
 
             <li class="search-results__result">
-                {{ render_poster(show.poster_image, sizes='70px', className='search-results__result-poster') }}
-                <div class="search-results__result-info">
-                    <h2 class="search-results__result-title">{{ show.title }}</h2>
-                    {% if show_meta is not none %}
-                        <span class="search-results__result-meta">{{ show_meta }}</span>
-                    {% endif %}
-                </div>
+                <a class="search-results__result-link" href="{{ route('front_end.app.show', { 'show_url_path': show.url_path }, query_params={ 'return_to': request().get_path_with_query() }) }}">
+                    {{ render_poster(show.poster_image, sizes='70px', className='search-results__result-poster') }}
+                    <div class="search-results__result-info">
+                        <h2 class="search-results__result-title">{{ show.title }}</h2>
+                        {% if show_meta is not none %}
+                            <span class="search-results__result-meta">{{ show_meta }}</span>
+                        {% endif %}
+                    </div>
+                </a>
             </li>
         {% endfor %}
     </ol>

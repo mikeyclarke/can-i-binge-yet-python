@@ -14,8 +14,8 @@ from masonite.routes import Route, HTTPRoute
 from masonite.configuration.Configuration import Configuration
 from masonite.configuration import config
 from typing import cast
-
-from src.py.middlewares import VerifyCsrfToken, AuthenticationMiddleware
+from src.py.front_end.app.middlewares import ShowLoaderMiddleware
+from src.py.middlewares import AuthenticationMiddleware
 
 
 class Kernel:
@@ -23,8 +23,12 @@ class Kernel:
     http_middleware = [MaintenanceModeMiddleware, EncryptCookies]
 
     route_middleware = {
-        'web': [SessionMiddleware, LoadUserMiddleware, VerifyCsrfToken],
+        'web': [SessionMiddleware, LoadUserMiddleware],
         'auth': [AuthenticationMiddleware],
+    }
+
+    route_middleware_with_deps = {
+        'show_loader': ShowLoaderMiddleware,
     }
 
     def __init__(self, app: Application) -> None:
@@ -67,15 +71,20 @@ class Kernel:
         self.application.bind('observers.location', 'src/py/models/observers')
         self.application.bind('policies.location', 'src/py/policies')
         self.application.bind('commands.location', 'src/py/commands')
-        self.application.bind('middlewares.location', 'src/py/middlewares')
+        self.application.bind('middlewares.location', ['src/py/middlewares', 'src/py/front_end/app/middlewares'])
 
         self.application.bind('server.runner', 'masonite.commands.ServeCommand.main')
 
     def register_middleware(self) -> None:
         self.application.make('middleware').add(self.route_middleware).add(self.http_middleware)
+        for key in self.route_middleware_with_deps:
+            self.application.make('middleware').add({
+                key: lambda: self.application.make(self.route_middleware_with_deps[key])
+            })
 
     def register_routes(self) -> None:
         Route.set_controller_locations('src/py/front_end/app/controllers')
+        Route.set_controller_locations('src/py/api/app/controllers')
         self.application.bind('routes.location', 'routes/web')
         routes = load(self.application.make('routes.location'), 'ROUTES')
         routes = cast(list[HTTPRoute], routes)

@@ -17,7 +17,7 @@ $config: map.merge($config, ('typography': typography.$config));
 
     @each $arg in $args {
         @if map.has-key($c, $arg) == false {
-            @warn 'Config entry not found';
+            @error 'Config entry "#{$arg}" not found';
         }
         $c: map.get($c, $arg);
     }

@@ -1,0 +1,19 @@
+$padding-block: 24px;
+
+$row-gap: 12px;
+
+$text-font-size: 14px;
+
+.loading-notice {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-block: $padding-block;
+}
+
+.loading-notice__text {
+    color: var(--foreground-color-muted-alt);
+    font-size: $text-font-size;
+    margin-block-start: $row-gap;
+    max-width: 75ch;
+}

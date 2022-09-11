@@ -1,17 +1,20 @@
 from datetime import datetime
 from typing import Any, TypedDict, List, Optional
 from src.py.themoviedb import TheMovieDbClient
+from src.py.url import SlugGenerator
 from .ShowImageFormatter import ShowImageFormatter, ShowImage
 from flag import flag
 
 
 class ShowSearchResult(TypedDict):
-    tmdb_show_id: int
+    tmdb_id: int
     title: str
     countries_emoji: list[str]
     year: Optional[int]
     overview: Optional[str]
     poster_image: Optional[ShowImage]
+    slug: str
+    url_path: str
 
 
 class ShowSearchResults(TypedDict):
@@ -25,9 +28,11 @@ class ShowSearch:
     def __init__(
         self,
         show_image_formatter: ShowImageFormatter,
+        slug_generator: SlugGenerator,
         tmdb_client: TheMovieDbClient,
     ) -> None:
         self.__show_image_formatter = show_image_formatter
+        self.__slug_generator = slug_generator
         self.__tmdb_client = tmdb_client
 
     def search(self, search_token: str, page: int = 1) -> ShowSearchResults:
@@ -43,13 +48,18 @@ class ShowSearch:
         }
 
         for result in response_body['results']:
+            tmdb_id = result['id']
+            slug = self.__slug_generator.generate(result['name'])
+
             show: ShowSearchResult = {
-                'tmdb_show_id': result['id'],
+                'tmdb_id': tmdb_id,
                 'title': result['name'],
                 'countries_emoji': [flag(code) for code in result['origin_country']],
                 'year': None,
                 'overview': result['overview'],
                 'poster_image': None,
+                'slug': slug,
+                'url_path': f'{tmdb_id}-{slug}',
             }
 
             if 'first_air_date' in result and result['first_air_date'] is not None and result['first_air_date'] != '':

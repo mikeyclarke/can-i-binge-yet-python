@@ -22,6 +22,10 @@ class TheMovieDbClient:
         session = Session()
 
         show_details = self.__make_request(f'/3/tv/{tmdb_show_id}', {}, session)
+        show_details['seasons'] = list(filter(
+            lambda season: season['air_date'] is not None and season['episode_count'] > 0,
+            show_details['seasons']
+        ))
 
         last_season = None
         if len(show_details['seasons']) > 0:
@@ -34,6 +38,9 @@ class TheMovieDbClient:
 
         show_details['last_season'] = last_season
         return show_details
+
+    def get_show_season(self, tmdb_show_id: int, season_number: int) -> dict[str, Any]:
+        return self.__make_request(f'/3/tv/{tmdb_show_id}/season/{season_number}')
 
     def get_trending_shows(self, time_window: str = 'day') -> dict[str, Any]:
         return self.__make_request(f'/3/trending/tv/{time_window}')

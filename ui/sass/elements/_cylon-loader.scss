@@ -1,0 +1,51 @@
+@use 'config/config';
+
+$default-loader-height: 5px;
+$default-loader-width: 100px;
+
+$speed: .6s;
+
+$indicator-color: config.config-get(color, 'blue');
+
+.cylon-loader {
+    position: relative;
+    height: var(--loader-height, #{$default-loader-height});
+    width: var(--loader-width, #{$default-loader-width});
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: calc(var(--loader-height, #{$default-loader-height}) / 2);
+    overflow: hidden;
+    translate: 0 0 0;
+}
+
+.cylon-loader::before {
+    background-color: var(--decoration-against-content-background-color);
+    content: '';
+    height: 100%;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    position: absolute;
+    width: 100%;
+}
+
+.cylon-loader::after {
+    animation: loader-wobble $speed ease-in-out infinite;
+    background-color: $indicator-color;
+    border-radius: calc(var(--loader-height, #{$default-loader-height}) / 2);
+    content: '';
+    height: 100%;
+    translate: -150%;
+    width: 25%;
+}
+
+@keyframes loader-wobble {
+    0%,
+    100% {
+        translate: -150%;
+    }
+
+    50% {
+        translate: 150%;
+    }
+}

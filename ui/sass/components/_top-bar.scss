@@ -1,4 +1,6 @@
-$height: 48px;
+@use 'config/config';
+
+$height: config.config-get(size, top-bar-height);
 
 $brand-text-size: 16px;
 $brand-text-weight: 700;

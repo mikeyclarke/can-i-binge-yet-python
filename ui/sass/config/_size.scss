@@ -4,6 +4,7 @@ $config: (
     larger-text-min-width: 720px,
     poster-border-radius: 4px,
     min-button-diameter: 46px,
+    top-bar-height: 48px,
     button: (
         border-radius: 4px,
         outline: (
@@ -18,4 +19,6 @@ $config: (
             width: 2px,
         ),
     ),
+    layout-main-breakpoint: (784px + (20px * 2)), // max-width - (gutter * 2)
+    layout-max-width: 784px,
 );

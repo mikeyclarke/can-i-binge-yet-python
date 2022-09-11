@@ -1,0 +1,105 @@
+@use 'config/config';
+@use 'helpers/breakpoint';
+
+$margin-top: 10px;
+
+$item-column-gap: 12px;
+$item-padding-block: 10px;
+$larger-layout-item-padding-block: 14px;
+
+$divider-height: 1px;
+
+$icon-color: config.config-get(color, 'green');
+$icon-color-muted: config.config-get(color, vibrant-grey);
+$icon-diameter: 18px;
+$icon-offset-top: 3px;
+$larger-layout-icon-offset-top: 4px;
+
+$title-font-size: 16px;
+$title-font-weight: 500;
+$larger-layout-title-font-size: 18px;
+
+$description-font-size: 14px;
+$description-font-weight: 400;
+$description-offset-top: 4px;
+$larger-layout-description-font-size: 18px;
+$larger-layout-description-offset-top: 5px;
+
+$larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
+
+.inset-icon-list {
+    --description-font-size: #{$description-font-size};
+    --description-offset-top: #{$description-offset-top};
+    --icon-offset-top: #{$icon-offset-top};
+    --item-padding-block: #{$item-padding-block};
+    --last-item-padding-block-end: #{$item-padding-block};
+    --title-font-size: #{$title-font-size};
+    list-style: none;
+    margin: $margin-top 0 0;
+    padding: 0;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        --description-font-size: #{$larger-layout-description-font-size};
+        --description-offset-top: #{$larger-layout-description-offset-top};
+        --icon-offset-top: #{$larger-layout-icon-offset-top};
+        --item-padding-block: #{$larger-layout-item-padding-block};
+        --last-item-padding-block-end: 0;
+        --title-font-size: #{$larger-layout-title-font-size};
+    }
+}
+
+.inset-icon-list__item {
+    column-gap: $item-column-gap;
+    display: grid;
+    grid-template-columns: $icon-diameter 1fr;
+    padding-block-start: var(--item-padding-block);
+    padding-block-end: calc(var(--item-padding-block) + #{$divider-height});
+    position: relative;
+}
+
+.inset-icon-list__item:last-child {
+    padding-block-end: var(--last-item-padding-block-end);
+}
+
+.inset-icon-list__item:not(:last-child)::after {
+    background-color: var(--decoration-against-content-background-color);
+    inset-block-end: 0;
+    content: '';
+    height: $divider-height;
+    inset-inline-start: $item-column-gap + $icon-diameter;
+    inset-inline-end: calc(var(--layout-padding-inline) - (var(--layout-padding-inline) * 2));
+    position: absolute;
+}
+
+%inset-icon-list__item-icon {
+    height: $icon-diameter;
+    margin-block-start: var(--icon-offset-top);
+    width: $icon-diameter;
+}
+
+.inset-icon-list__item-icon,
+.inset-icon-list__item-icon--muted {
+    @extend %inset-icon-list__item-icon;
+}
+
+.inset-icon-list__item-icon {
+    fill: $icon-color;
+}
+
+.inset-icon-list__item-icon--muted {
+    fill: $icon-color-muted;
+}
+
+.inset-icon-list__item-title {
+    font-size: var(--title-font-size);
+    font-weight: $title-font-weight;
+    margin: 0;
+}
+
+.inset-icon-list__item-description {
+    color: var(--foreground-color-muted-alt);
+    font-size: var(--description-font-size);
+    font-weight: $description-font-weight;
+    margin: 0;
+    margin-block-start: var(--description-offset-top);
+}

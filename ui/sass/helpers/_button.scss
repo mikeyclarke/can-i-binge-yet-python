@@ -15,12 +15,16 @@ $outline-width: config.config-get(size, button, outline, width);
     padding: 0;
 }
 
+@mixin focus-ring {
+    animation: input-focus-ring 4s alternate infinite;
+    outline-offset: $outline-offset;
+    outline-width: $outline-width;
+    outline-style: solid;
+}
+
 %focus-ring-button {
     @include focus-visible.focus-visible() {
-        animation: input-focus-ring 4s alternate infinite;
-        outline-offset: $outline-offset;
-        outline-width: $outline-width;
-        outline-style: solid;
+        @include focus-ring;
     }
 }
 

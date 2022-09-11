@@ -3,9 +3,8 @@
 
 $margin-inline: config.config-get(size, inline-page-offset);
 $margin-bottom: config.config-get(size, end-of-page-offset);
-$max-width: 784px;
-
-$larger-layout-breakpoint: $max-width + ($margin-inline * 2);
+$max-width: config.config-get(size, layout-max-width);
+$larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
 
 $legend-line-height: 1.4;
 $legend-margin-bottom: 26px;
@@ -28,11 +27,27 @@ $result-meta-text-size: 14px;
 $result-meta-larger-layout-text-size: 16px;
 
 .search-results {
-    margin-inline: $margin-inline;
+    --margin-inline: #{$margin-inline};
+    --meta-font-size: #{$result-meta-text-size};
+    --title-font-size: #{$result-title-text-size};
+    --title-font-weight: #{$result-title-text-weight};
+    --title-margin-block-end: #{$result-title-margin-bottom};
+    --legend-margin-block-end: #{$legend-margin-bottom};
+    --result-column-gap: #{$result-column-gap};
+    --result-padding-block: #{$result-padding-block};
+    --result-divider-inset-inline-start: #{$result-poster-width + $result-column-gap};
+    margin-inline: var(--margin-inline);
     margin-block-end: $margin-bottom;
 
     @include breakpoint.breakpoint($larger-layout-breakpoint) {
-        margin-inline: auto;
+        --margin-inline: auto;
+        --meta-font-size: #{$result-meta-larger-layout-text-size};
+        --title-font-size: #{$result-title-larger-layout-text-size};
+        --title-margin-block-end: #{$result-title-larger-layout-margin-bottom};
+        --legend-margin-block-end: #{$legend-larger-layout-margin-bottom};
+        --result-column-gap: #{$result-larger-layout-column-gap};
+        --result-padding-block: #{$result-larger-layout-padding-block};
+        --result-divider-inset-inline-start: #{$result-poster-width + $result-larger-layout-column-gap};
         max-width: $max-width;
     }
 }
@@ -40,12 +55,8 @@ $result-meta-larger-layout-text-size: 16px;
 .search-results__results-legend {
     line-height: $legend-line-height;
     margin-block-start: 0;
-    margin-block-end: $legend-margin-bottom;
+    margin-block-end: var(--legend-margin-block-end);
     text-align: center;
-
-    @include breakpoint.breakpoint($larger-layout-breakpoint) {
-        margin-block-end: $legend-larger-layout-margin-bottom;
-    }
 }
 
 .search-results__results-legend strong {
@@ -58,42 +69,35 @@ $result-meta-larger-layout-text-size: 16px;
     padding: 0;
 }
 
-.search-results__result {
+.search-results__result-link {
+    color: inherit;
     display: grid;
-    column-gap: $result-column-gap;
+    column-gap: var(--result-column-gap);
     grid-template-columns: $result-poster-width 1fr;
-    padding-block: $result-padding-block;
+    text-decoration: none;
+    padding-block: var(--result-padding-block);
     position: relative;
-
-    @include breakpoint.breakpoint($larger-layout-breakpoint) {
-        column-gap: $result-larger-layout-column-gap;
-        padding-block: $result-larger-layout-padding-block;
-    }
 }
 
-.search-results__result:first-child {
+.search-results__result:first-child .search-results__result-link {
     padding-block-start: 0;
 }
 
-.search-results__result:last-child {
+.search-results__result:last-child .search-results__result-link {
     padding-block-end: 0;
 }
 
-.search-results__result::after {
+.search-results__result-link::after {
     background-color: var(--decoration-against-default-background-color);
     inset-block-end: 0;
     content: '';
     height: 1px;
-    inset-inline-start: $result-poster-width + $result-column-gap;
+    inset-inline-start: var(--result-divider-inset-inline-start);
     inset-inline-end: 0;
     position: absolute;
-
-    @include breakpoint.breakpoint($larger-layout-breakpoint) {
-        inset-inline-start: $result-poster-width + $result-larger-layout-column-gap;
-    }
 }
 
-.search-results__result:last-child::after {
+.search-results__result:last-child .search-results__result-link::after {
     content: none;
 }
 
@@ -106,15 +110,10 @@ $result-meta-larger-layout-text-size: 16px;
 }
 
 .search-results__result-title {
-    font-size: $result-title-text-size;
-    font-weight: $result-title-text-weight;
+    font-size: var(--title-font-size);
+    font-weight: var(--title-font-weight);
     margin-block-start: 0;
-    margin-block-end: $result-title-margin-bottom;
-
-    @include breakpoint.breakpoint($larger-layout-breakpoint) {
-        font-size: $result-title-larger-layout-text-size;
-        margin-block-end: $result-title-larger-layout-margin-bottom;
-    }
+    margin-block-end: var(--title-margin-block-end);
 }
 
 .search-results__result-title:only-child {
@@ -123,9 +122,5 @@ $result-meta-larger-layout-text-size: 16px;
 
 .search-results__result-meta {
     color: var(--foreground-color-muted);
-    font-size: $result-meta-text-size;
-
-    @include breakpoint.breakpoint($larger-layout-breakpoint) {
-        font-size: $result-meta-larger-layout-text-size;
-    }
+    font-size: var(--meta-font-size);
 }

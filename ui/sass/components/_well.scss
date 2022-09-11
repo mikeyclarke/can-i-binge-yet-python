@@ -1,0 +1,120 @@
+@use 'config/config';
+@use 'helpers/breakpoint';
+
+$border-radius: 12px;
+$margin-bottom: 24px;
+$margin-inline: -10px;
+$padding-block: 12px;
+$padding-inline: 12px;
+
+$larger-layout-margin-bottom: 28px;
+$larger-layout-margin-inline: 0;
+$larger-layout-padding-block: 24px;
+$larger-layout-padding-inline: 24px;
+
+$larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
+
+$collapsable-header-margin-right: 44px;
+
+$title-font-size: 16px;
+$title-font-weight: 600;
+$larger-layout-title-font-size: 18px;
+
+$description-text-size: 16px;
+$description-font-weight: 400;
+$description-margin-top: 4px;
+
+$disclosure-icon-diameter: 24px;
+$disclosure-icon-inset-block-start: 9px;
+$disclosure-icon-inset-inline-end: -46px;
+
+$text-font-size: 16px;
+$text-line-height: 24px;
+$larger-layout-text-font-size: 18px;
+$larger-layout-text-line-height: 27px;
+
+%well {
+    --layout-margin-bottom: #{$margin-bottom};
+    --layout-margin-inline: #{$margin-inline};
+    --layout-padding-block: #{$padding-block};
+    --layout-padding-inline: #{$padding-inline};
+    --text-font-size: #{$text-font-size};
+    --text-line-height: #{$text-line-height};
+    --title-font-size: {$title-font-size};
+    background-color: var(--well-background-color);
+    border-radius: $border-radius;
+    margin-block-end: var(--layout-margin-bottom);
+    margin-inline: var(--layout-margin-inline);
+    padding: var(--layout-padding-block) var(--layout-padding-inline);
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        --layout-margin-bottom: #{$larger-layout-margin-bottom};
+        --layout-margin-inline: #{$larger-layout-margin-inline};
+        --layout-padding-block: #{$larger-layout-padding-block};
+        --layout-padding-inline: #{$larger-layout-padding-inline};
+        --text-font-size: #{$larger-layout-text-font-size};
+        --text-line-height: #{$larger-layout-text-line-height};
+        --title-font-size: #{$larger-layout-title-font-size};
+    }
+}
+
+.well,
+.well--collapsable,
+.well--centered {
+    @extend %well;
+}
+
+.well--centered {
+    text-align: center;
+}
+
+.well--collapsable .well__header {
+    margin-inline-end: $collapsable-header-margin-right;
+    position: relative;
+}
+
+.well--collapsable .well__header::after {
+    content: '';
+    inset-block: calc(var(--layout-padding-block) - (var(--layout-padding-block) * 2));
+    inset-inline-start: calc(var(--layout-padding-inline) - (var(--layout-padding-inline) * 2));
+    inset-inline-end: calc(
+        (var(--layout-padding-inline) - (var(--layout-padding-inline) * 2)) + -#{$collapsable-header-margin-right}
+    );
+    position: absolute;
+}
+
+.well__header:is(summary) {
+    list-style: none;
+}
+
+.well__title {
+    font-size: var(--title-font-size);
+    font-weight: $title-font-weight;
+    margin: 0;
+}
+
+.well__description {
+    font-size: $description-text-size;
+    font-weight: $description-font-weight;
+    margin: 0;
+    margin-block-start: $description-margin-top;
+}
+
+.well__disclosure-icon {
+    fill: var(--foreground-color-muted);
+    inset-block-start: $disclosure-icon-inset-block-start;
+    inset-inline-end: $disclosure-icon-inset-inline-end;
+    height: $disclosure-icon-diameter;
+    position: absolute;
+    width: $disclosure-icon-diameter;
+}
+
+.well--collapsable[open] .well__disclosure-icon {
+    rotate: 180deg;
+}
+
+.well__text {
+    font-size: var(--text-font-size);
+    line-height: var(--text-line-height);
+    margin: 0;
+}

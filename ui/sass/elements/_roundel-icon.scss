@@ -1,0 +1,22 @@
+@use 'config/config';
+
+$supported-colors: ('blue', 'red');
+
+.roundel-icon {
+    align-items: center;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+@each $color in $supported-colors {
+    .roundel-icon.#{$color} {
+        background-color: config.config-get(color, $color);
+    }
+}
+
+.roundel-icon__icon {
+    fill: var(--white);
+    height: 75%;
+    width: 75%;
+}

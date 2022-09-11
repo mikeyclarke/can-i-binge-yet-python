@@ -1,0 +1,11 @@
+{% macro render_backdrop(backdrop_image, sizes, className = none, alt = none) %}
+    {% if backdrop_image is not none %}
+        <img
+            class="backdrop{% if className is not none %} {{ className }}{% endif %}"
+            src="{{ backdrop_image.default }}"
+            srcset="{{ backdrop_image.srcset }}"
+            sizes="{{ sizes }}"
+            alt="{% if alt is not none %}{{ alt }}{% endif %}"
+        >
+    {% endif %}
+{% endmacro %}

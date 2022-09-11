@@ -12,7 +12,7 @@ $fixed-size-min-width: $max-width + ($margin-inline * 2);
 $clear-button-width: 36px;
 
 $submit-icon-color: config.config-get(color, input-icon-color);
-$submitable-submit-icon-color: config.config-get(color, blue);
+$submitable-submit-icon-color: config.config-get(color, 'blue');
 
 $submit-button-width: 46px;
 $submit-button-icon-diameter: 24px;

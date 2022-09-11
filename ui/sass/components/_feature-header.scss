@@ -1,0 +1,276 @@
+@use 'sass:color';
+@use 'config/config';
+@use 'helpers/breakpoint';
+@use 'helpers/button';
+@use 'helpers/focus-visible';
+
+$top-bar-height: config.config-get(size, top-bar-height);
+
+$back-button-diameter: 48px;
+$back-button-blend-mode: luminosity;
+$back-button-background-diameter: 30px;
+$back-button-background-color: color.change(config.config-get(color, schemes, light, foreground-color), $alpha: 0.4);
+
+$back-button-icon-diameter: 20px;
+$back-button-icon-fill: #fff;
+$no-backdrop-back-button-icon-diameter: 24px;
+
+$backdrop-overlay-border-radius: 8px 8px 0 0;
+$backdrop-overlay-height: 8px;
+$backdrop-max-width: 1240px;
+$backdrop-border-radius: 12px;
+
+$details-offset-top: 12px;
+$details-offset-inline: config.config-get(size, inline-page-offset);
+$details-margin-block-end: 0;
+$details-max-width: config.config-get(size, layout-max-width);
+$larger-layout-details-offset-top: -221px;
+$larger-layout-details-margin-block-end: 73px;
+
+$details-text-text-shadow: none;
+$larger-layout-details-text-text-shadow: 1px 4px 2px var(--light-scheme-foreground-color);
+
+$poster-offset-right: 12px;
+$poster-inset-top: -32px;
+$poster-larger-inset-top: -44px;
+$larger-layout-poster-width: 126px;
+$larger-layout-poster-offset-right: 42px;
+$larger-layout-poster-inset-top: 0;
+
+$title-font-size: 24px;
+$title-font-weight: 700;
+$title-line-height: 1.2;
+$larger-layout-title-font-size: 42px;
+
+$subtitle-font-size: 18px;
+$subtitle-font-weight: 500;
+$subtitle-line-height: 1.4;
+$subtitle-offset-top: 8px;
+$larger-layout-subtitle-font-size: 24px;
+$larger-layout-subtitle-offset-top: 8px;
+
+$backdrop-gradient-x: calc(((100vw - #{$details-max-width}) / 2) + #{$larger-layout-poster-width} + #{$larger-layout-poster-offset-right});
+$fixed-width-backdrop-gradient-x: calc(((#{$backdrop-max-width} - #{$details-max-width}) / 2) + #{$larger-layout-poster-width} + #{$larger-layout-poster-offset-right});
+
+$larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
+
+.feature-header {
+    --header-margin-block-start: #{-($top-bar-height)};
+    --details-margin-block-end: #{$details-margin-block-end};
+    --details-offset-top: #{$details-offset-top};
+    --poster-inset-top: #{$poster-inset-top};
+    --poster-offset-right: #{$poster-offset-right};
+    --subtitle-font-size: #{$subtitle-font-size};
+    --subtitle-offset-top: #{$subtitle-offset-top};
+    --title-font-size: #{$title-font-size};
+    --text-text-shadow: none;
+    --text-color: inherit;
+    margin-block-start: var(--header-margin-block-start);
+    position: relative;
+
+    @include breakpoint.breakpoint(348px) {
+        --poster-inset-top: #{$poster-larger-inset-top};
+    }
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        --details-margin-block-end: #{$larger-layout-details-margin-block-end};
+        --details-offset-top: #{$larger-layout-details-offset-top};
+        --poster-inset-top: #{$larger-layout-poster-inset-top};
+        --poster-offset-right: #{$larger-layout-poster-offset-right};
+        --subtitle-font-size: #{$larger-layout-subtitle-font-size};
+        --subtitle-offset-top: #{$larger-layout-subtitle-offset-top};
+        --title-font-size: #{$larger-layout-title-font-size};
+        --text-color: var(--dark-scheme-foreground-color);
+        --text-text-shadow: #{$larger-layout-details-text-text-shadow};
+        --header-margin-block-start: 0;
+    }
+}
+
+.feature-header:not(.has-backdrop) {
+    padding-block-start: $back-button-diameter;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        --details-offset-top: 0;
+    }
+}
+
+.feature-header__back-button {
+    align-items: center;
+    display: flex;
+    height: $back-button-diameter;
+    inset-block-start: 0;
+    justify-content: center;
+    mix-blend-mode: $back-button-blend-mode;
+    position: absolute;
+    width: $back-button-diameter;
+    z-index: 1;
+
+    @include focus-visible.focus-visible() {
+        &::before {
+            @include button.focus-ring;
+        }
+    }
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        margin-block-start: -($top-bar-height);
+    }
+
+    @include breakpoint.breakpoint($backdrop-max-width) {
+        margin-inline-start: calc((100vw - #{$backdrop-max-width}) / 2);
+    }
+}
+
+.feature-header__back-button:focus-visible {
+    mix-blend-mode: normal;
+    outline: 0;
+}
+
+.feature-header:not(.has-backdrop) .feature-header__back-button {
+    mix-blend-mode: normal;
+}
+
+.feature-header__back-button::before {
+    content: '';
+    background: $back-button-background-color;
+    border-radius: $back-button-background-diameter;
+    position: absolute;
+    inset-inline-start: 50%;
+    inset-block-start: 50%;
+    translate: -50% -50%;
+    height: $back-button-background-diameter;
+    width: $back-button-background-diameter;
+    z-index: -1;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        background: transparent;
+    }
+}
+
+.feature-header:not(.has-backdrop) .feature-header__back-button::before {
+    background: transparent;
+}
+
+.feature-header__back-button-icon {
+    fill: $back-button-icon-fill;
+    height: $back-button-icon-diameter;
+    width: $back-button-icon-diameter;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        fill: var(--foreground-color);
+        height: $no-backdrop-back-button-icon-diameter;
+        width: $no-backdrop-back-button-icon-diameter;
+    }
+}
+
+.feature-header:not(.has-backdrop) .feature-header__back-button-icon {
+    fill: var(--foreground-color);
+    height: $no-backdrop-back-button-icon-diameter;
+    width: $no-backdrop-back-button-icon-diameter;
+}
+
+.feature-header__backdrop-wrap {
+    margin-inline: auto;
+    max-width: $backdrop-max-width;
+    position: relative;
+}
+
+.feature-header__backdrop-wrap::after {
+    background-color: var(--background-color);
+    border-radius: $backdrop-overlay-border-radius;
+    content: '';
+    height: $backdrop-overlay-height;
+    inset-block-end: 0;
+    inset-inline: 0;
+    position: absolute;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        display: none;
+    }
+}
+
+.feature-header__backdrop-wrap::before {
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        background-image: radial-gradient(
+            circle calc(50vw - 20px) at $backdrop-gradient-x calc(100% - 127px),
+            var(--dark-scheme-background-color-half-transparent) 0%,
+            var(--dark-scheme-background-color-transparent) 100%
+        );
+        content: '';
+        inset: 0;
+        position: absolute;
+    }
+
+    @include breakpoint.breakpoint($backdrop-max-width) {
+        background-image: radial-gradient(
+            circle calc(50vw - 20px) at $fixed-width-backdrop-gradient-x calc(100% - 127px),
+            var(--dark-scheme-background-color-half-transparent) 0%,
+            var(--dark-scheme-background-color-transparent) 100%
+        );
+    }
+}
+
+.feature-header__backdrop-image {
+    aspect-ratio: 16 / 9;
+    display: block;
+    max-width: 100%;
+
+    @include breakpoint.breakpoint($backdrop-max-width) {
+        border-radius: $backdrop-border-radius;
+    }
+}
+
+.feature-header__details-wrap {
+    align-items: flex-start;
+    display: flex;
+    margin-block-start: var(--details-offset-top);
+    margin-block-end: var(--details-margin-block-end);
+    padding-inline: $details-offset-inline;
+    position: relative;
+
+    @include breakpoint.breakpoint($larger-layout-breakpoint) {
+        align-items: center;
+        margin-inline: auto;
+        max-width: $details-max-width;
+        padding-inline: 0;
+    }
+}
+
+.feature-header:not(.has-backdrop) .feature-header__details-wrap {
+    align-items: center;
+}
+
+.feature-header:not(.has-poster) .feature-header__details-wrap {
+    display: block;
+    text-align: center;
+}
+
+.feature-header__poster {
+    margin-block-start: var(--poster-inset-top);
+    margin-inline-end: var(--poster-offset-right);
+    position: relative;
+}
+
+.feature-header:not(.has-backdrop) .feature-header__poster {
+    margin-block-start: 0;
+}
+
+.feature-header__title {
+    font-size: var(--title-font-size);
+    font-weight: $title-font-weight;
+    line-height: $title-line-height;
+    margin: 0;
+}
+
+.feature-header__subtitle {
+    font-size: var(--subtitle-font-size);
+    font-weight: $subtitle-font-weight;
+    line-height: $subtitle-line-height;
+    margin: 0;
+    margin-block-start: var(--subtitle-offset-top);
+}
+
+.has-backdrop .feature-header__title,
+.has-backdrop .feature-header__subtitle {
+    color: var(--text-color);
+    text-shadow: var(--text-text-shadow);
+}

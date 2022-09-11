@@ -17,7 +17,8 @@
     "webpack": "^5.74",
     "webpack-assets-manifest": "^5.1",
     "webpack-cli": "^4.10",
-    "webpack-merge": "^5.8"
+    "webpack-merge": "^5.8",
+    "whatwg-fetch": "^3.6"
   },
   "dependencies": {
     "modern-normalize": "^1.1"

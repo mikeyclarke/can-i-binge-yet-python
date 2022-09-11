@@ -1,5 +1,4 @@
-from masonite.routes import Route
+from routes.front_end.app.routes import FRONT_END_APP_ROUTES
+from routes.api.app.routes import API_APP_ROUTES
 
-ROUTES = [
-    Route.get('/', 'HomeController@show').name('home'),
-]
+ROUTES = FRONT_END_APP_ROUTES + API_APP_ROUTES

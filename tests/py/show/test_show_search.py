@@ -1,6 +1,7 @@
 from datetime import datetime
 from src.py.show import ShowImageFormatter, ShowSearch
 from src.py.themoviedb import TheMovieDbClient
+from src.py.url import SlugGenerator
 from unittest.mock import create_autospec, call
 from flag import flag
 
@@ -8,10 +9,12 @@ from flag import flag
 class TestShowSearch:
     def setup_method(self) -> None:
         self.__show_image_formatter = create_autospec(ShowImageFormatter)
+        self.__slug_generator = create_autospec(SlugGenerator)
         self.__tmdb_client = create_autospec(TheMovieDbClient)
 
         self.__show_search = ShowSearch(
             self.__show_image_formatter,
+            self.__slug_generator,
             self.__tmdb_client
         )
 
@@ -101,6 +104,12 @@ class TestShowSearch:
         }
 
         self.__tmdb_client.search_shows.return_value = response_body
+        self.__slug_generator.generate.side_effect = [
+            'show-197449-slug',
+            'show-204039-slug',
+            'show-156200-slug',
+            'show-38900-slug',
+        ]
         self.__show_image_formatter.format.side_effect = [
             '197449-poster',
             '156200-poster',
@@ -110,36 +119,44 @@ class TestShowSearch:
             'page': response_body['page'],
             'shows': [
                 {
-                    'tmdb_show_id': response_body['results'][0]['id'],
+                    'tmdb_id': response_body['results'][0]['id'],
                     'title': response_body['results'][0]['name'],
                     'countries_emoji': [flag(code) for code in response_body['results'][0]['origin_country']],
                     'year': datetime.strptime(response_body['results'][0]['first_air_date'], '%Y-%m-%d').year,
                     'overview': response_body['results'][0]['overview'],
                     'poster_image': '197449-poster',
+                    'slug': 'show-197449-slug',
+                    'url_path': '197449-show-197449-slug',
                 },
                 {
-                    'tmdb_show_id': response_body['results'][1]['id'],
+                    'tmdb_id': response_body['results'][1]['id'],
                     'title': response_body['results'][1]['name'],
                     'countries_emoji': [flag(code) for code in response_body['results'][1]['origin_country']],
                     'year': datetime.strptime(response_body['results'][1]['first_air_date'], '%Y-%m-%d').year,
                     'overview': response_body['results'][1]['overview'],
                     'poster_image': None,
+                    'slug': 'show-204039-slug',
+                    'url_path': '204039-show-204039-slug',
                 },
                 {
-                    'tmdb_show_id': response_body['results'][2]['id'],
+                    'tmdb_id': response_body['results'][2]['id'],
                     'title': response_body['results'][2]['name'],
                     'countries_emoji': [flag(code) for code in response_body['results'][2]['origin_country']],
                     'year': datetime.strptime(response_body['results'][2]['first_air_date'], '%Y-%m-%d').year,
                     'overview': response_body['results'][2]['overview'],
                     'poster_image': '156200-poster',
+                    'slug': 'show-156200-slug',
+                    'url_path': '156200-show-156200-slug',
                 },
                 {
-                    'tmdb_show_id': response_body['results'][3]['id'],
+                    'tmdb_id': response_body['results'][3]['id'],
                     'title': response_body['results'][3]['name'],
                     'countries_emoji': [flag(code) for code in response_body['results'][3]['origin_country']],
                     'year': None,
                     'overview': response_body['results'][3]['overview'],
                     'poster_image': None,
+                    'slug': 'show-38900-slug',
+                    'url_path': '38900-show-38900-slug',
                 },
             ],
             'total_results': response_body['total_results'],
@@ -149,6 +166,12 @@ class TestShowSearch:
         result = self.__show_search.search(search_token)
 
         self.__tmdb_client.search_shows.assert_called_once_with(search_token, 1)
+        self.__slug_generator.generate.assert_has_calls([
+            call(response_body['results'][0]['name']),
+            call(response_body['results'][1]['name']),
+            call(response_body['results'][2]['name']),
+            call(response_body['results'][3]['name']),
+        ])
         self.__show_image_formatter.format.assert_has_calls([
             call('poster', response_body['results'][0]['poster_path']),
             call('poster', response_body['results'][2]['poster_path']),

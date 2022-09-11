@@ -3,13 +3,21 @@
 @use 'elements/root';
 @use 'elements/body';
 @use 'elements/input';
+@use 'elements/cylon-loader';
 @use 'elements/clearable-input';
 @use 'elements/poster';
+@use 'elements/roundel-icon';
 
 @use 'layouts/homepage';
+@use 'layouts/show-detail';
 @use 'layouts/search-results' as l-search-results;
 
 @use 'components/top-bar';
+@use 'components/well';
+@use 'components/feature-header';
 @use 'components/search-box';
 @use 'components/search-results';
+@use 'components/icon-list';
+@use 'components/inset-icon-list';
+@use 'components/loading-notice';
 @use 'components/trending-shows';

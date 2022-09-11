@@ -6,5 +6,6 @@ module.exports = {
         "\\.(ts|js)$": "ts-jest",
     },
     modulePaths: ['<rootDir>/src/ts'],
-    testEnvironment: "jsdom"
+    testEnvironment: "jsdom",
+    setupFiles: ['<rootDir>/tests/ts/setupJest.ts'],
 }

@@ -2,6 +2,7 @@ from masonite.cache import Cache
 from masonite.cache.drivers import RedisDriver
 from src.py.show import ShowImageFormatter, TrendingShows
 from src.py.themoviedb import TheMovieDbClient
+from src.py.url import SlugGenerator
 from unittest.mock import create_autospec, call
 
 shows = {
@@ -59,14 +60,18 @@ shows = {
 
 formatted_result = [
     {
-        'tmdb_show_id': shows['results'][0]['id'],
+        'tmdb_id': shows['results'][0]['id'],
         'title': shows['results'][0]['name'],
         'poster_image': f"{shows['results'][0]['id']}-poster",
+        'slug': f"show-{shows['results'][0]['id']}-slug",
+        'url_path': f"{shows['results'][0]['id']}-show-{shows['results'][0]['id']}-slug",
     },
     {
-        'tmdb_show_id': shows['results'][1]['id'],
+        'tmdb_id': shows['results'][1]['id'],
         'title': shows['results'][1]['name'],
         'poster_image': f"{shows['results'][1]['id']}-poster",
+        'slug': f"show-{shows['results'][1]['id']}-slug",
+        'url_path': f"{shows['results'][1]['id']}-show-{shows['results'][1]['id']}-slug",
     },
 ]
 
@@ -74,11 +79,13 @@ formatted_result = [
 class TestTrendingShows:
     def setup_method(self) -> None:
         self.__cache = create_autospec(Cache)
+        self.__slug_generator = create_autospec(SlugGenerator)
         self.__show_image_formatter = create_autospec(ShowImageFormatter)
         self.__tmdb_client = create_autospec(TheMovieDbClient)
 
         self.__trending_shows = TrendingShows(
             self.__cache,
+            self.__slug_generator,
             self.__show_image_formatter,
             self.__tmdb_client
         )
@@ -90,6 +97,10 @@ class TestTrendingShows:
         self.__cache.get_config_options.return_value = {}
         self.__cache.has.return_value = True
         self.__cache.get.return_value = shows
+        self.__slug_generator.generate.side_effect = [
+            f"show-{shows['results'][0]['id']}-slug",
+            f"show-{shows['results'][1]['id']}-slug",
+        ]
         self.__show_image_formatter.format.side_effect = [
             f"{shows['results'][0]['id']}-poster",
             f"{shows['results'][1]['id']}-poster",
@@ -103,6 +114,10 @@ class TestTrendingShows:
         self.__redis_driver.get_connection.assert_called_once()
         self.__cache.has.assert_called_once_with(TrendingShows.CACHE_KEY)
         self.__cache.get.assert_called_once_with(TrendingShows.CACHE_KEY)
+        self.__slug_generator.generate.assert_has_calls([
+            call(shows['results'][0]['name']),
+            call(shows['results'][1]['name']),
+        ])
         self.__show_image_formatter.format.assert_has_calls([
             call('poster', shows['results'][0]['poster_path']),
             call('poster', shows['results'][1]['poster_path']),
@@ -115,6 +130,10 @@ class TestTrendingShows:
         self.__cache.get_config_options.return_value = {}
         self.__cache.has.return_value = False
         self.__tmdb_client.get_trending_shows.return_value = shows
+        self.__slug_generator.generate.side_effect = [
+            f"show-{shows['results'][0]['id']}-slug",
+            f"show-{shows['results'][1]['id']}-slug",
+        ]
         self.__show_image_formatter.format.side_effect = [
             f"{shows['results'][0]['id']}-poster",
             f"{shows['results'][1]['id']}-poster",
@@ -129,6 +148,10 @@ class TestTrendingShows:
         self.__cache.has.assert_called_once_with(TrendingShows.CACHE_KEY)
         self.__tmdb_client.get_trending_shows.assert_called_once()
         self.__cache.put.assert_called_once_with(TrendingShows.CACHE_KEY, shows, seconds=TrendingShows.CACHE_LIFETIME)
+        self.__slug_generator.generate.assert_has_calls([
+            call(shows['results'][0]['name']),
+            call(shows['results'][1]['name']),
+        ])
         self.__show_image_formatter.format.assert_has_calls([
             call('poster', shows['results'][0]['poster_path']),
             call('poster', shows['results'][1]['poster_path']),
