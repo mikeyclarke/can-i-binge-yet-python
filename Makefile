@@ -72,6 +72,9 @@ install_dependencies: poetry_install ## Install poetry packages
 poetry_install: ## Install poetry packages
 	docker exec -it bingeable-py poetry install
 
+poetry_update: ## Update poetry packages
+	docker compose run --rm python poetry update
+
 ## ---------
 ##	Asset compilation
 ## ---------
