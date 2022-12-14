@@ -114,7 +114,7 @@ class ShowPageFormatter:
             })
 
         has_ended = self.__has_ended(show)
-        last_season = seasons[0] or None
+        last_season = seasons[0] if seasons else None
 
         last_episode = None
         if last_season is not None and last_season['episodes'] is not None:
