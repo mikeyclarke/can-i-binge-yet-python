@@ -37,37 +37,39 @@
 </header>
 
 <div class="l-show-detail__body">
-    <div class="well--centered">
-        {% set show_meta = [] %}
-        {% if show.air_dates_display is not none %}
-            {% do show_meta.append(show.air_dates_display) %}
-        {% endif %}
-        {% if show.countries_emoji|length > 0 %}
-            {% do show_meta.append(show.countries_emoji|join(' ')) %}
-        {% endif %}
+    {% set show_meta = [] %}
+    {% if show.air_dates_display is not none %}
+        {% do show_meta.append(show.air_dates_display) %}
+    {% endif %}
+    {% if show.countries_emoji|length > 0 %}
+        {% do show_meta.append(show.countries_emoji|join(' ')) %}
+    {% endif %}
 
-        {% if show_meta|length > 0 %}
-            <span class="well__text">{{ show_meta|join(' ') }}</span>
-        {% endif %}
+    {% if show_meta|length > 0 or show.networks|length > 0 %}
+        <div class="well--centered">
+            {% if show_meta|length > 0 %}
+                <span class="well__text">{{ show_meta|join(' ') }}</span>
+            {% endif %}
 
-        {% if show.networks|length > 0 %}
-            <ul class="l-show-detail__networks">
-                {% for network in show.networks %}
-                    <li>
-                        {% if network.logo is not none %}
-                            <img
-                                src="{{ network.logo.default }}"
-                                height="20"
-                                alt="{{ network.name }}"
-                            >
-                        {% else %}
-                            <span>{{ network.name }}</span>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
+            {% if show.networks|length > 0 %}
+                <ul class="l-show-detail__networks">
+                    {% for network in show.networks %}
+                        <li>
+                            {% if network.logo is not none %}
+                                <img
+                                    src="{{ network.logo.default }}"
+                                    height="20"
+                                    alt="{{ network.name }}"
+                                >
+                            {% else %}
+                                <span>{{ network.name }}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endif %}
 
     <div class="well">
         <ul class="icon-list">
@@ -100,34 +102,36 @@
         </div>
     {% endif %}
 
-    <h2 class="l-show-detail__section-title">Episodes</h2>
+    {% if show.seasons|length > 0 %}
+        <h2 class="l-show-detail__section-title">Episodes</h2>
 
-    {% for season in show.seasons %}
-        <details class="well--collapsable l-show-detail__season"{% if season.episodes is not none %} open{% endif %}>
-            <summary class="well__header">
-                <h3 class="well__title">{{ season.name }}{% if season.name != 'Specials' and season.year is not none %} ({{ season.year }}){% endif %}</h3>
-                <p class="well__description">{{ season.episode_count }} episode{% if season.episode_count != 1 %}s{% endif %}</p>
-                {{ icon('chevron-down', 'well__disclosure-icon') }}
-            </summary>
+        {% for season in show.seasons %}
+            <details class="well--collapsable l-show-detail__season"{% if season.episodes is not none %} open{% endif %}>
+                <summary class="well__header">
+                    <h3 class="well__title">{{ season.name }}{% if season.name != 'Specials' and season.year is not none %} ({{ season.year }}){% endif %}</h3>
+                    <p class="well__description">{{ season.episode_count }} episode{% if season.episode_count != 1 %}s{% endif %}</p>
+                    {{ icon('chevron-down', 'well__disclosure-icon') }}
+                </summary>
 
-            {% if season.episodes is not none %}
-                {% include 'show/_season_episodes.html' %}
-            {% else %}
-                {% set episodes_route = route(
-                    'api.app.season_episodes.get',
-                    {
-                        'show_id': show.tmdb_id,
-                        'season_number': season.season_number,
-                    },
-                    absolute=False
-                ) %}
-                <lazy-details src="{{ episodes_route }}" aria-live="polite" aria-busy="false">
-                    {% set loading_text = 'Hang tight, we’re fetching those episodes…' %}
-                    {% include '_loading_notice.html' with context %}
-                </lazy-details>
-            {% endif %}
-        </details>
-    {% endfor %}
+                {% if season.episodes is not none %}
+                    {% include 'show/_season_episodes.html' %}
+                {% else %}
+                    {% set episodes_route = route(
+                        'api.app.season_episodes.get',
+                        {
+                            'show_id': show.tmdb_id,
+                            'season_number': season.season_number,
+                        },
+                        absolute=False
+                    ) %}
+                    <lazy-details src="{{ episodes_route }}" aria-live="polite" aria-busy="false">
+                        {% set loading_text = 'Hang tight, we’re fetching those episodes…' %}
+                        {% include '_loading_notice.html' with context %}
+                    </lazy-details>
+                {% endif %}
+            </details>
+        {% endfor %}
+    {% endif %}
 </div>
 
 {% endblock %}
