@@ -40,6 +40,7 @@ class ShowPageResult(TypedDict):
     seasons: list[Season]
     air_dates_display: Optional[str]
     has_ended: bool
+    is_bingeable: bool
 
 
 def format_friendly_date(air_date: date) -> str:
@@ -135,6 +136,7 @@ class ShowPageFormatter:
             'seasons': seasons,
             'air_dates_display': self.__get_air_dates(show, last_episode, has_ended),
             'has_ended': has_ended,
+            'is_bingeable': last_episode['has_aired'] if last_episode is not None else False,
         }
 
         if show['poster_path'] is not None:

@@ -5,6 +5,10 @@
         <title>{% if html_title is defined %}{{ html_title }} – {% endif %}Can I Binge Yet?</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="{{ manifest_asset_url('app.css') }}">
+
+        <link rel="icon" href="/favicon{% if favicon_variant is defined %}-{{ favicon_variant }}{% endif %}.svg" type="image/svg+xml">
+        <link rel="icon" href="/favicon-light-mode{% if favicon_variant is defined %}-{{ favicon_variant }}{% endif %}.png" type="image/png" sizes="any">
+        <link rel="icon" href="/favicon-dark-mode{% if favicon_variant is defined %}-{{ favicon_variant }}{% endif %}.png" type="image/png" media="(prefers-color-scheme: dark)" sizes="any">
     </head>
 
     <body {% block body_element_attributes %}{% endblock %}>

@@ -1,6 +1,10 @@
 {% from 'show/_backdrop.html' import render_backdrop %}
 {% from 'show/_poster.html' import render_poster %}
 
+{% if show.is_bingeable %}
+    {% set favicon_variant = 'bingeable' %}
+{% endif %}
+
 {% extends 'base_layout.html' %}
 
 {% block body_element_attributes %}class="l-show-detail"{% endblock %}
