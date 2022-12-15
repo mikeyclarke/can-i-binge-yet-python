@@ -87,6 +87,10 @@ $larger-layout-text-line-height: 27px;
     list-style: none;
 }
 
+.well__header:is(summary)::-webkit-details-marker {
+    display: none;
+}
+
 .well__title {
     font-size: var(--title-font-size);
     font-weight: $title-font-weight;
