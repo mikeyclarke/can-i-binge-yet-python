@@ -1,9 +1,15 @@
 @use 'config/config';
+@use 'helpers/button';
+@use 'helpers/focus-visible';
 
 $height: config.config-get(size, top-bar-height);
 
 $brand-text-size: 16px;
 $brand-text-weight: 700;
+
+$focus-ring-border-radius: config.config-get(size, button, border-radius);
+$focus-ring-block-offset: 2px;
+$focus-ring-inline-offset: -8px;
 
 .top-bar {
     display: flex;
@@ -22,5 +28,22 @@ $brand-text-weight: 700;
     display: flex;
     height: $height;
     justify-content: center;
+    position: relative;
     text-decoration: none;
+
+    @include focus-visible.focus-visible() {
+        outline: 0;
+
+        &::after {
+            @include button.focus-ring;
+        }
+    }
+}
+
+.top-bar__brand-link::after {
+    border-radius: $focus-ring-border-radius;
+    content: '';
+    inset-block: $focus-ring-block-offset;
+    inset-inline: $focus-ring-inline-offset;
+    position: absolute;
 }

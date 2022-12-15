@@ -1,5 +1,7 @@
 @use 'config/config';
 @use 'helpers/breakpoint';
+@use 'helpers/button';
+@use 'helpers/focus-visible';
 
 $margin-inline: config.config-get(size, inline-page-offset);
 $margin-bottom: config.config-get(size, end-of-page-offset);
@@ -77,6 +79,15 @@ $result-meta-larger-layout-text-size: 16px;
     text-decoration: none;
     padding-block: var(--result-padding-block);
     position: relative;
+
+    @include focus-visible.focus-visible() {
+        outline: 0;
+
+        .search-results__result-poster {
+            @include button.focus-ring;
+            outline-offset: 4px;
+        }
+    }
 }
 
 .search-results__result:first-child .search-results__result-link {

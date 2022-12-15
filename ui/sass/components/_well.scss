@@ -1,5 +1,7 @@
 @use 'config/config';
 @use 'helpers/breakpoint';
+@use 'helpers/button';
+@use 'helpers/focus-visible';
 
 $border-radius: 12px;
 $margin-bottom: 24px;
@@ -75,6 +77,7 @@ $larger-layout-text-line-height: 27px;
 
 .well--collapsable .well__header::after {
     content: '';
+    border-radius: $border-radius;
     inset-block: calc(var(--layout-padding-block) - (var(--layout-padding-block) * 2));
     inset-inline-start: calc(var(--layout-padding-inline) - (var(--layout-padding-inline) * 2));
     inset-inline-end: calc(
@@ -85,6 +88,14 @@ $larger-layout-text-line-height: 27px;
 
 .well__header:is(summary) {
     list-style: none;
+
+    @include focus-visible.focus-visible() {
+        outline: 0;
+
+        &::after {
+            @include button.focus-ring;
+        }
+    }
 }
 
 .well__header:is(summary)::-webkit-details-marker {

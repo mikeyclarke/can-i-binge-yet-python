@@ -1,5 +1,7 @@
 @use 'config/config';
 @use 'helpers/breakpoint';
+@use 'helpers/button';
+@use 'helpers/focus-visible';
 
 $margin-inline: config.config-get(size, inline-page-offset);
 $max-width: 1240px;
@@ -10,6 +12,9 @@ $title-text-size: 18px;
 $title-text-weight: 600;
 $title-larger-text-size: 21px;
 $title-larger-margin-bottom: 24px;
+
+$list-padding-block-start: 4px;
+$list-margin-block-start: -($list-padding-block-start);
 
 $show-poster-gap: 20px;
 $show-poster-width: 90px;
@@ -63,11 +68,28 @@ $dynamic-inline-offset-min-width: $max-width + $margin-inline;
     gap: var(--poster-column-gap);
     grid-template-columns: repeat(var(--poster-columns), var(--show-poster-width));
     list-style: none;
-    margin: 0;
+    margin: $list-margin-block-start 0 0;
     overflow-x: auto;
-    padding-block-start: 0;
+    padding-block-start: $list-padding-block-start;
     padding-block-end: var(--poster-scroll-track-offset);
     padding-inline: var(--inline-offset);
+}
+
+.trending-shows__show {
+    position: relative;
+}
+
+.trending-shows__show-link {
+    display: block;
+
+    @include focus-visible.focus-visible() {
+        outline: 0;
+
+        .trending-shows__show-poster {
+            @include button.focus-ring;
+            outline-offset: 2px;
+        }
+    }
 }
 
 .trending-shows__show-poster {
