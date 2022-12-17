@@ -75,6 +75,12 @@ poetry_install: ## Install poetry packages
 poetry_update: ## Update poetry packages
 	docker compose run --rm python poetry update
 
+add_yarn_package: ## Add a yarn package
+	docker compose run --rm node yarn add $(PACKAGE)
+
+add_yarn_dev_package: ## Add a yarn package
+	docker compose run --rm node yarn add --dev $(PACKAGE)
+
 ## ---------
 ##	Asset compilation
 ## ---------
@@ -84,6 +90,9 @@ webpack_watch: ## Have webpack watch source files and re-compile assets on chang
 
 webpack_compile: ## Have webpack execute a one-off asset compilation
 	docker exec -it bingeable-node yarn run webpack --config webpack.dev.js
+
+webpack_production_build: ## Have webpack execute a one-off asset compilation
+	docker compose run --rm node yarn run webpack --config webpack.production.js
 
 ## ---------
 ##	Deployment
