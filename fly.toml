@@ -1,0 +1,48 @@
+# fly.toml file generated for can-i-binge-yet on 2022-12-17T00:08:08Z
+
+app = "can-i-binge-yet"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  dockerfile = "docker/python/Dockerfile"
+
+[env]
+  APP_DEBUG = false
+  APP_ENV = "production"
+  APP_URL = "https://can-i-binge-yet.fly.dev"
+  HASHING_FUNCTION = "bcrypt"
+  MAIL_DRIVER = "terminal"
+  REDIS_HOST = "fly-ciby.upstash.io"
+  REDIS_PORT = 6379
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 8000
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"

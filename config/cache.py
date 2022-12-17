@@ -10,7 +10,7 @@ STORES = {
         'driver': 'redis',
         'host': env('REDIS_HOST'),
         'port': env('REDIS_PORT'),
-        'password': '',
+        'password': env('REDIS_PASSWORD', ''),
         'name': 'bingeable',
     },
 }

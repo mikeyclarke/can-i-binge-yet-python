@@ -86,6 +86,13 @@ webpack_compile: ## Have webpack execute a one-off asset compilation
 	docker exec -it bingeable-node yarn run webpack --config webpack.dev.js
 
 ## ---------
+##	Deployment
+## ---------
+
+deploy:
+	fly deploy --ignorefile .dockerignore.production
+
+## ---------
 ##	Make setup
 ## ---------
 
