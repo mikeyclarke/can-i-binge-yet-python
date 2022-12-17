@@ -206,6 +206,7 @@ $larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
             var(--dark-scheme-background-color-half-transparent) 0%,
             var(--dark-scheme-background-color-transparent) 100%
         );
+        border-radius: $backdrop-border-radius;
     }
 }
 
