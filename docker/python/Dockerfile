@@ -19,4 +19,4 @@ COPY . .
 
 RUN poetry install --no-interaction
 
-CMD ["poetry", "run", "bin/console", "serve", "-p", "8000", "-b", "0.0.0.0"]
+CMD ["poetry", "run", "gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "wsgi:application"]
