@@ -33,6 +33,10 @@ input:where(#{$typesSelector}) {
     box-shadow: none;
 }
 
+[type="search"] {
+    -webkit-appearance: none;
+}
+
 input:focus:where(#{$typesSelector}) {
     animation: input-focus-ring 4s alternate infinite;
     outline-offset: $outline-offset;
