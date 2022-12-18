@@ -19,6 +19,10 @@ $title-font-size: 16px;
 $title-font-weight: 500;
 $larger-layout-title-font-size: 18px;
 
+$title-counter-font-size: 12px;
+$title-counter-font-weight: 400;
+$larger-layout-title-counter-font-size: 14px;
+
 $description-font-size: 14px;
 $description-font-weight: 400;
 $description-offset-top: 4px;
@@ -34,6 +38,7 @@ $larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
     --item-padding-block: #{$item-padding-block};
     --last-item-padding-block-end: #{$item-padding-block};
     --title-font-size: #{$title-font-size};
+    --title-counter-font-size: #{$title-counter-font-size};
     list-style: none;
     margin: $margin-top 0 0;
     padding: 0;
@@ -45,6 +50,7 @@ $larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
         --item-padding-block: #{$larger-layout-item-padding-block};
         --last-item-padding-block-end: 0;
         --title-font-size: #{$larger-layout-title-font-size};
+        --title-counter-font-size: #{$larger-layout-title-counter-font-size};
     }
 }
 
@@ -94,6 +100,12 @@ $larger-layout-breakpoint: config.config-get(size, layout-main-breakpoint);
     font-size: var(--title-font-size);
     font-weight: $title-font-weight;
     margin: 0;
+}
+
+.inset-icon-list__item-title-counter {
+    color: var(--foreground-color-muted-alt);
+    font-size: var(--title-counter-font-size);
+    font-weight: $title-counter-font-weight;
 }
 
 .inset-icon-list__item-description {
