@@ -9,7 +9,7 @@ processes = []
   dockerfile = "docker/python/Dockerfile"
 
 [env]
-  APP_DEBUG = false
+  APP_DEBUG = "false"
   APP_ENV = "production"
   APP_URL = "https://can-i-binge-yet.fly.dev"
   HASHING_FUNCTION = "bcrypt"
