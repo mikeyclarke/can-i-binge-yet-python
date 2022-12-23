@@ -21,6 +21,7 @@ appConfigLines.forEach((line) => {
 module.exports = {
     entry: {
         app: ['./src/ts/app.ts', './ui/sass/app.scss'],
+        'service-worker': { import: './src/ts/service-worker/service-worker.ts', filename: 'service-worker/[name].js' }
     },
     output: {
         path: path.resolve(__dirname, 'public/compiled'),
@@ -47,14 +48,38 @@ module.exports = {
         extensions: ['.ts'],
         modules: [
             path.resolve('./src/ts'),
+            path.resolve('./node_modules'),
         ],
     },
     module: {
         rules: [
             {
                 test: /\.ts$/,
+                include: path.resolve('./src/ts'),
+                exclude: path.resolve('./src/ts/service-worker'),
                 use: [
-                    'ts-loader',
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            instance: 'browser',
+                            context: __dirname,
+                            configFile: 'src/ts/tsconfig.json',
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.ts$/,
+                include: path.resolve('./src/ts/service-worker'),
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            instance: 'service-worker',
+                            context: __dirname,
+                            configFile: 'src/ts/service-worker/tsconfig.json',
+                        },
+                    },
                 ],
             },
             {

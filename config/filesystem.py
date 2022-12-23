@@ -18,4 +18,5 @@ STATICFILES = {
     'storage/static': 'static/',
     'storage/compiled': 'assets/',
     'public': '/',
+    'public/compiled/service-worker': '/',
 }

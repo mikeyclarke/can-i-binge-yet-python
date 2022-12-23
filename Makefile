@@ -61,7 +61,7 @@ pytest: ## Run python unit tests
 	docker exec -it bingeable-py poetry run pytest tests/py
 
 jest: ## Run TypeScript unit tests
-	docker exec -it bingeable-node yarn run jest --verbose --silent=false
+	docker exec -it bingeable-node yarn run jest --verbose --silent=false $(TEST_REGEXP)
 
 ## ---------
 ##	Dependencies

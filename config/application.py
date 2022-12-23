@@ -16,6 +16,7 @@ APP_URL = env('APP_URL', 'http://localhost:8000/')
 MIX_BASE_URL = env('MIX_BASE_URL', None)
 
 ASSET_MANIFEST_PATH = 'public/compiled/manifest.json'
+ASSET_DIRECTORY = 'public'
 
 TMDB_API_BASE_URL = env('TMDB_API_BASE_URL', 'https://api.themoviedb.org')
 TMDB_API_KEY = env('TMDB_API_KEY', None)
