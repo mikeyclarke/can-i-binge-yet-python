@@ -6,6 +6,10 @@
 
 {% block content %}
 
+{% if config('application.snowfall') is defined and config('application.snowfall') is true %}
+    {% include '_snowfall.html' %}
+{% endif %}
+
 <div class="l-homepage__top-bar">
     {% include '_top_bar.html' %}
 </div>

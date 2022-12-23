@@ -1,3 +1,7 @@
+@use 'sass:meta';
+
+$snowfall: true !default;
+
 @use 'modern-normalize/modern-normalize.css';
 
 @use 'elements/root';
@@ -21,3 +25,7 @@
 @use 'components/inset-icon-list';
 @use 'components/loading-notice';
 @use 'components/trending-shows';
+
+@if $snowfall {
+    @include meta.load-css('components/snowfall');
+}

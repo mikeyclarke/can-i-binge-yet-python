@@ -3,6 +3,20 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const fs = require('fs');
+
+const applicationConfig = fs.readFileSync('./config/application.py', 'utf8');
+const appConfigLines = applicationConfig.split(/\r?\n/);
+
+let snowfall = false;
+appConfigLines.forEach((line) => {
+    if (line.startsWith('SNOWFALL')) {
+        const value = line.match(/SNOWFALL\s=\s([A-Za-z]+)$/);
+        if (null !== value) {
+            snowfall = (value[1].toLowerCase() === 'true') ? true : false;
+        }
+    }
+});
 
 module.exports = {
     entry: {
@@ -51,6 +65,7 @@ module.exports = {
                     {
                         loader: 'sass-loader',
                         options: {
+                            additionalData: '$snowfall: ' + snowfall + ';',
                             webpackImporter: false,
                             sassOptions: {
                                 includePaths: ['./ui/sass', './node_modules']

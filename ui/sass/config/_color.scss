@@ -16,6 +16,7 @@ $config: (
             outline-color-end: hsl(194, 79%, 41%),
             well-background-color: #fff,
             'white': #fff,
+            snowflake-color: hsl(186, 37%, 56%),
         ),
         dark: (
             background-color: hsla(224, 22%, 10%, 1),
@@ -33,6 +34,7 @@ $config: (
             outline-color-end: hsl(211, 90%, 53%),
             well-background-color: #282e3e,
             'white': #f9f7f2,
+            snowflake-color: #fff,
         ),
     ),
     'blue': #3083dc,

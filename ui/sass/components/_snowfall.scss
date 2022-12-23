@@ -1,0 +1,63 @@
+$snowflake-count: 250;
+
+.snowfall {
+    font-family: sans-serif;
+    height: 100%;
+    inset: 0;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    z-index: -1;
+}
+
+.snowfall__snowflake {
+    animation-iteration-count: infinite;
+    animation-name: snowflake;
+    color: var(--snowflake-color);
+    position: absolute;
+    animation-delay: var(--animation-delay);
+    animation-duration: var(--animation-duration);
+    inset-inline-start: var(--inset-inline-start);
+    inset-block-start: calc(var(--inset-block-start) - (var(--inset-block-start) * 2));
+}
+
+@for $i from 1 through $snowflake-count {
+    $block-start: (random(50) + 50);
+
+    .snowfall__snowflake:nth-of-type(#{$i}) {
+        --animation-delay: #{random(20) + 1s};
+        --animation-duration: #{random(6) + 8s};
+        --inset-block-start: #{$block-start * 1%};
+        --inset-inline-start: #{random(100) * 1%};
+        --font-size: #{random(20)}px;
+        --translate-y: #{($block-start + 40) - (-$block-start)}vh;
+    }
+}
+
+.snowfall__snowflake::after {
+    content: "\2744";
+    font-size: var(--font-size);
+}
+
+@keyframes snowflake {
+    0% {
+        inset-inline-start: var(--inset-inline-start);
+    }
+    25% {
+        inset-inline-start: calc(var(--inset-inline-start) + 1%);
+    }
+
+    50% {
+        inset-inline-start: var(--inset-inline-start);
+    }
+
+    75% {
+        inset-inline-start: calc(var(--inset-inline-start) + 2%);
+        opacity: 1;
+    }
+    100% {
+        translate: 0 var(--translate-y);
+        opacity: 0;
+        rotate: 360deg;
+    }
+}

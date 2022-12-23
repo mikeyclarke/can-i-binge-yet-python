@@ -21,3 +21,5 @@ TMDB_API_BASE_URL = env('TMDB_API_BASE_URL', 'https://api.themoviedb.org')
 TMDB_API_KEY = env('TMDB_API_KEY', None)
 
 SEARCH_INPUT_PLACEHOLDER_EXAMPLE = env('SEARCH_INPUT_PLACEHOLDER_EXAMPLE', 'Stranger Things')
+
+SNOWFALL = True
