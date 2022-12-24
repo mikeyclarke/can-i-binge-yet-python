@@ -4,6 +4,16 @@ services:
     build:
       dockerfile: ./docker/python/Dockerfile
       context: ./
+    entrypoint:
+      - poetry
+      - run
+      - gunicorn
+      - '-w'
+      - '2'
+      - '-b'
+      - '0.0.0.0:8000'
+      - '--reload'
+      - 'wsgi:application'
     depends_on:
       - redis
     ports:
