@@ -21,5 +21,5 @@ def return_to_url(request: Request, fallback_url: str) -> str:
 
 
 def icon(name: str, class_name: str, label: Optional[str] = None) -> str:
-    aria_attribute = 'aria-hidden' if label is None else f'aria-label="{label}"'
+    aria_attribute = 'aria-hidden="true"' if label is None else f'aria-label="{label}"'
     return Markup(f'<svg class="{class_name}" {aria_attribute}><use xlink:href="#icon-sprite__{name}"/></svg>')
