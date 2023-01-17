@@ -1,5 +1,5 @@
 {
-  "name": "bingeable",
+  "name": "can-i-binge-yet",
   "private": true,
   "packageManager": "yarn@3.2.2",
   "devDependencies": {

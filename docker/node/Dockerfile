@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 RUN corepack enable
 
-WORKDIR /var/bingeable
+WORKDIR /var/ciby
 
 COPY . .
 

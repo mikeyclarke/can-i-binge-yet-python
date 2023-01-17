@@ -13,7 +13,7 @@ RUN apk update && apk --no-cache add \
 
 RUN pip install -U pip setuptools wheel poetry==$POETRY_VERSION
 
-WORKDIR /var/bingeable
+WORKDIR /var/ciby
 
 COPY . .
 

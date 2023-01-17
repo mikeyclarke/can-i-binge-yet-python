@@ -1,6 +1,6 @@
 services:
   python:
-    container_name: bingeable-py
+    container_name: can-i-binge-yet-python
     build:
       dockerfile: ./docker/python/Dockerfile
       context: ./
@@ -19,7 +19,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .:/var/bingeable
+      - .:/var/ciby
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -35,12 +35,12 @@ services:
       ALLOW_EMPTY_PASSWORD: 'yes'
 
   node:
-    container_name: bingeable-node
+    container_name: can-i-binge-yet-node
     build:
       dockerfile: ./docker/node/Dockerfile
       context: ./
     volumes:
-      - .:/var/bingeable
+      - .:/var/ciby
     tty: true
 
 volumes:

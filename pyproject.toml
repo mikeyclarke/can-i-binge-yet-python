@@ -1,5 +1,5 @@
 [project]
-name = "bingeable"
+name = "can-i-binge-yet"
 version = ""
 description = ""
 authors = [
@@ -12,7 +12,7 @@ requires-python = "^3.11"
 mypy_path = 'stubs'
 
 [tool.poetry]
-name = "bingeable"
+name = "can-i-binge-yet"
 version = "0.0.0"
 description = ""
 authors = ["Your Name <you@example.com>"]

@@ -5,7 +5,7 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 ## ---------
 
 build_docker_image:
-	docker build -t bingeable-py .
+	docker build -t can-i-binge-yet-python .
 
 ## ---------
 ##	Container management
@@ -24,7 +24,7 @@ stop_containers: ## Stop docker containers
 	docker-compose stop
 
 container_shell: ## Open an interactive shell in the main python container
-	docker exec -it bingeable-py /bin/sh
+	docker exec -it can-i-binge-yet-python /bin/sh
 
 ## ---------
 ##	Testing
@@ -41,27 +41,27 @@ test_ts: jest ## Run all TypeScript code tests
 ## ---------
 
 flake8: ## Check that python code complies with sylistic rules
-	docker exec -it bingeable-py poetry run flake8 src/py/ tests/py/
+	docker exec -it can-i-binge-yet-python poetry run flake8 src/py/ tests/py/
 
 ## ---------
 ##	Static analysis
 ## ---------
 
 mypy: ## Check that python code passes type checking
-	docker exec -it bingeable-py poetry run mypy --strict src/py/
+	docker exec -it can-i-binge-yet-python poetry run mypy --strict src/py/
 
 bandit: ## Check that python code passes bandit security analysis
-	docker exec -it bingeable-py poetry run bandit -r src/py
+	docker exec -it can-i-binge-yet-python poetry run bandit -r src/py
 
 ## ---------
 ##	Unit tests
 ## ---------
 
 pytest: ## Run python unit tests
-	docker exec -it bingeable-py poetry run pytest tests/py
+	docker exec -it can-i-binge-yet-python poetry run pytest tests/py
 
 jest: ## Run TypeScript unit tests
-	docker exec -it bingeable-node yarn run jest --verbose --silent=false $(TEST_REGEXP)
+	docker exec -it can-i-binge-yet-node yarn run jest --verbose --silent=false $(TEST_REGEXP)
 
 ## ---------
 ##	Dependencies
@@ -70,7 +70,7 @@ jest: ## Run TypeScript unit tests
 install_dependencies: poetry_install ## Install poetry packages
 
 poetry_install: ## Install poetry packages
-	docker exec -it bingeable-py poetry install
+	docker exec -it can-i-binge-yet-python poetry install
 
 poetry_update: ## Update poetry packages
 	docker compose run --rm python poetry update
@@ -86,10 +86,10 @@ add_yarn_dev_package: ## Add a yarn package
 ## ---------
 
 webpack_watch: ## Have webpack watch source files and re-compile assets on change
-	docker exec -it bingeable-node yarn run webpack --watch --config webpack.dev.js
+	docker exec -it can-i-binge-yet-node yarn run webpack --watch --config webpack.dev.js
 
 webpack_compile: ## Have webpack execute a one-off asset compilation
-	docker exec -it bingeable-node yarn run webpack --config webpack.dev.js
+	docker exec -it can-i-binge-yet-node yarn run webpack --config webpack.dev.js
 
 webpack_production_build: ## Have webpack execute a one-off asset compilation
 	docker compose run --rm node yarn run webpack --config webpack.production.js
